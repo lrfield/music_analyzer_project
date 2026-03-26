@@ -2,11 +2,16 @@ import io
 import base64
 import numpy as np
 import matplotlib
-matplotlib.use('Agg')  # Non-interactive backend, required for Flask
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from flask import Flask, render_template, request
 
+# Import all MongoDB interaction from db.py
+import db as database
+
 app = Flask(__name__)
+
+# --- Business logic ---
 
 def multiply(a, b):
     return a * b
@@ -21,7 +26,6 @@ def generate_scatterplot():
     ax.set_xlabel('X')
     ax.set_ylabel('Y')
 
-    # Save plot to an in-memory buffer and encode as base64
     buffer = io.BytesIO()
     fig.savefig(buffer, format='png')
     buffer.seek(0)
@@ -32,42 +36,44 @@ def generate_scatterplot():
 
 # --- Routes ---
 
-# "A Minimal Application"
 @app.route('/')
 def home():
-    # "Rendering Templates"
     return render_template('index.html')
 
-# "Routing"
 @app.route('/report')
 def report():
-    # "Rendering Templates"
     return render_template('report.html')
 
-# "Routing"
 @app.route('/visualization')
 def visualization():
-    # "Rendering Templates"
     plot = generate_scatterplot()
     return render_template('visualization.html', plot=plot)
 
-# "HTTP Methods"
 @app.route('/queries', methods=['GET', 'POST'])
 def queries():
-    result = None
-    error = None
-    # "The Request Object"
-    if request.method == 'POST':
-        try:
-            # "The Request Object"
-            a = float(request.form['operand_a'])
-            b = float(request.form['operand_b'])
-            result = multiply(a, b)
-        except ValueError:
-            error = "Both fields must be numbers."
-    # "Rendering Templates"
-    return render_template('queries.html', result=result, error=error)
+    # Populate dropdowns from the database
+    countries = database.get_countries()
 
-# "Debug Mode"
+    results       = None
+    query_type    = None
+    query_country = None
+
+    if request.method == 'POST':
+        query_type    = request.form['query_type']   # 'artists' or 'genre'
+        query_country = request.form['country']
+
+        if query_type == 'artists':
+            results = database.top_artists_in_country(query_country)
+        elif query_type == 'genre':
+            results = database.top_genres_in_country(query_country)
+
+    return render_template(
+        'queries.html',
+        countries=countries,
+        results=results,
+        query_type=query_type,
+        query_country=query_country
+    )
+
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False)

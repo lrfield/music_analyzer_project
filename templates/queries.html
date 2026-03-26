@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Music Analyzer Queries</title>
+  <title>Music Analyzer — Queries</title>
   <link rel="stylesheet" href="/static/styles.css">
 </head>
 <body>
@@ -12,32 +12,45 @@
 </header>
 
 <nav>
-    <a class="nav-btn" href="/">Home</a>
-    <a class="nav-btn" href="/report">Report</a>
-    <a class="nav-btn" href="/queries">Queries</a>
-    <a class="nav-btn" href="/visualization">Visualization</a>
+  <a class="nav-btn" href="/">Home</a>
+  <a class="nav-btn" href="/report">Report</a>
+  <a class="nav-btn active" href="/queries">Queries</a>
+  <a class="nav-btn" href="/visualization">Visualization</a>
 </nav>
 
 <main>
   <div class="card">
-    <h2>Multiply</h2>
+    <h2>Query the Database</h2>
     <div class="child_card">
       <form method="POST">
-        <input type="text" name="operand_a" placeholder="First number">
-        <input type="text" name="operand_b" placeholder="Second number">
-        <button type="submit">Calculate</button>
+
+        <label>Top</label>
+
+        <select name="query_type">
+          <option value="artists">Artists</option>
+          <option value="genre">Genres</option>
+        </select>
+
+        <label>in</label>
+
+        <select name="country">
+          {% for country in countries %}
+            <option value="{{ country }}"
+              {% if country == query_country %}selected{% endif %}>
+              {{ country }}
+            </option>
+          {% endfor %}
+        </select>
+
+        <button type="submit">Run</button>
+
       </form>
     </div>
 
-    {% if error %}
+    {% if results is not none %}
     <div class="child_card">
-      <p>Error: {{ error }}</p>
-    </div>
-    {% endif %}
-
-    {% if result is not none %}
-    <div class="child_card">
-      <p>Result: {{ result }}</p>
+      <p><strong>Top {{ query_type }} in {{ query_country }}:</strong></p>
+      <p>{{ results | join(', ') }}</p>
     </div>
     {% endif %}
 
