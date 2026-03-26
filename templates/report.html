@@ -1,0 +1,46 @@
+<!-- All this page does is render a markdown file to serve as
+    the report section of the website. It means that formatting
+    is fairly barebones, but really simplifies things.-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Music Analyzer Report</title>
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+
+<header>
+  <h1>Music Analyzer Report</h1>
+</header>
+
+<nav>
+    <a class="nav-btn" href="/">Home</a>
+    <a class="nav-btn" href="/report">Report</a>
+    <a class="nav-btn" href="/queries">Queries</a>
+    <a class="nav-btn" href="/visualization">Visualization</a>
+</nav>
+
+<main>
+  <div id="content"></div>
+</main>
+
+<footer id="main-footer">
+  Footer
+</footer>
+
+<!-- Taken from example https://marked.js.org/-->
+<script src="https://cdn.jsdelivr.net/npm/marked/lib/marked.umd.js"></script>
+<script>
+  fetch('/static/report.md')
+    .then(response => response.text())
+    .then(text => {
+      document.getElementById('content').innerHTML = marked.parse(text);
+    });
+</script>
+
+
+
+</body>
+</html>
