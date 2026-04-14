@@ -4,12 +4,17 @@
 
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <title>Music Analyzer Report</title>
-  <link rel="stylesheet" href="/static/styles.css">
-</head>
+  <head>
+    <meta charset="utf-8">
+    <title>Music Analyzer \ Report</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/pruger/tiny-brutalism-css/tiny-brutalism.css">
+    
+    <script type="module" src="https://cdn.jsdelivr.net/gh/zerodevx/zero-md@2/dist/zero-md.min.js"></script>
+    <link rel="stylesheet" href="/static/styles.css">
+  </head>
 <body>
+<div class = "container crt">
+
 
 <header>
   <h1>Music Analyzer Report</h1>
@@ -18,28 +23,20 @@
 <nav>
     <a class="nav-btn" href="/">Home</a>
     <a class="nav-btn" href="/report">Report</a>
-    <a class="nav-btn" href="/queries">Queries</a>
-    <a class="nav-btn" href="/visualization">Visualization</a>
+    <a class="nav-btn" href="/artist">Artist</a>
+    <a class="nav-btn" href="/genre">Genre</a>
+    <a class="nav-btn active" href="/listener">Listener</a>
 </nav>
 
-<main>
-  <div id="content"></div>
-</main>
+<div class = "box">
+  <main>
+  <zero-md src="/static/report.md"></zero-md>
+  </main>
+</div>
 
-<footer id="main-footer">
-  Footer
-</footer>
+<footer id="main-footer">Website made by Logan Field, Term Project For Applied Database Technologies</footer>
 
-<!-- Taken from example https://marked.js.org/-->
-<script src="https://cdn.jsdelivr.net/npm/marked/lib/marked.umd.js"></script>
-<script>
-  fetch('/static/report.md')
-    .then(response => response.text())
-    .then(text => {
-      document.getElementById('content').innerHTML = marked.parse(text);
-    });
-</script>
-
+</div>
 
 
 </body>

@@ -1,34 +1,30 @@
-
-/* --- Page sections --- */
-.page {
-  display: none;
+/*https://aleclownes.com/2017/02/01/crt-display.html*/
+html {
+  filter: invert(1);
 }
 
-.page.active {
+.crt::before {
+  content: " ";
   display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background:
+    linear-gradient(rgba(18, 16, 16, 0) 0%, rgba(0, 0, 0, 0.08) 50%, rgba(18, 16, 16, 0) 100%);
+  z-index: 9999;
+  background-size: 100% 4px;
+  pointer-events: none;
 }
 
-/* Code blocks */
-pre {
-  background: #1e1e1e;
-  color: #d4d4d4;
-  padding: 16px;
-  border-radius: 6px;
-  overflow-x: auto;
+.crt {
+  text-shadow:
+    0.4px 0 1px rgba(0, 30, 255, 0.4),
+   -0.4px 0 1px rgba(255, 0, 80, 0.3),
+    0 0 3px currentColor;
 }
 
-/* Inline code */
-code {
-  background: #1e1e1e;
-  padding: 2px 5px;
-  border-radius: 3px;
-  font-family: monospace;
-}
-
-/* Blockquotes */
-blockquote {
-  border-left: 4px solid #ccc;
-  margin: 0;
-  padding-left: 16px;
-  color: #666;
+#music-player audio {
+  filter: invert(1);
 }

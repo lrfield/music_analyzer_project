@@ -3,3 +3,6 @@ gunicorn
 matplotlib
 numpy
 pymongo
+geodatasets
+geopandas
+pandas

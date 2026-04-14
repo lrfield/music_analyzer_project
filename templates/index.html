@@ -1,44 +1,111 @@
+{% from "query_detail_macro.html" import query_details %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <title>Music Analyzer</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/pruger/tiny-brutalism-css/tiny-brutalism.css">
   <link rel="stylesheet" href="/static/styles.css">
 </head>
 <body>
 
+<div class = "container crt">
+  
 <header>
   <h1>Music Analyzer</h1>
 </header>
 
 <nav>
-    <a class="nav-btn" href="/">Home</a>
-    <a class="nav-btn" href="/report">Report</a>
-    <a class="nav-btn" href="/queries">Queries</a>
-    <a class="nav-btn" href="/visualization">Visualization</a>
+  <a class="nav-btn" href="/">Home</a>
+  <a class="nav-btn" href="/report">Report</a>
+  <a class="nav-btn" href="/artist">Artist</a>
+  <a class="nav-btn" href="/genre">Genre</a>
+  <a class="nav-btn" href="/listener">Listener</a>
 </nav>
 
 <main>
-  <div class="card">
-    <h2>Summary of Project</h2>
-    <div class="child_card">
-      <p>This is the content of the <span class="highlight">child card</span>.</p>
-    </div>
-    <div class="child_card">
-      <p>This is the content of the second <span class="highlight">child card</span>.</p>
-    </div>
+  <div class="box">
+    <h2>Welcome!</h2>
+    <p>
+      This is a term project for Applied Database Technologies at Indiana University.
+      It is a flask website that uses PyMongo to query and visualize the statistics of a MongoDB Database
+      constructed from surveying listener and artist data from the Listenbrainz and Musicbrainz APIs.
+    </p>
+    <p>
+      The current source of the artist and listener data is from surveying the listeners of "seed artists" retrieved under the metal genre tag.
+      So you can think of this data as representative of a sample of metal listeners, not a sample of metal artists.
+    </p>
+    <p>
+      Genres, artists, and listeners are hyperlinked whenever possible, so you can navigate to the analysis of any data item by clicking on it's hyperlink.
+      For a general overview of the data, click the  <a href="/artist">artist</a>, <a href="/genre">artist</a>, or <a href="/genre">listener</a> tabs.
+      For more information, navigate to the <a href="/report">report</a> tab.
+    </p>
+    
   </div>
-  <div class="card">
-    <h2>Further Description</h2>
-    <div class="child_card">
-      <p>This card only contains one child card, and it contains a link to <a href="https://www.google.com/">Google</a>.</p>
+  <div class="box">
+    <h2>Summary Statistics</h2>
+    <div class="box">
+      <h3>Total # of Artists: </h3>
+      {{total_num_artists}}
+      <!--Drop-down Query Explanation-->
+      {{ query_details("get_total_num_artists", query_display_list) }}
+    </div>
+    <div class="box">
+      <h3>Total # of Genres: </h3>
+      {{total_num_genres}}
+      {{ query_details("get_total_num_genres", query_display_list) }}
+    </div>
+    <div class="box">
+      <h3>Total # of Listeners: </h3>
+      {{total_num_listeners}}
+      {{ query_details("get_total_num_listeners", query_display_list) }}
+    </div>
+    <div class="box">
+      <h3>Percent of Artists in Database Classified as Metal: </h3>
+      {{percent_metal}} %
+    </div>
+    
+  </div>
+  <div class="box">
+    <h2>Top 100 Artists In Dataset</h2>
+    <div class="box">
+      <table style = "border-collapse: collapse; width: 100%;">
+        <thead>
+          <tr>
+            <th>Rank</th>
+            <th>Artist</th>
+            <th>Country</th>
+            <th>Unique Listener Count</th>
+            <th>Tags</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for artist in top_artists %}
+            <tr style = "border-bottom: 5px solid #f3f3f3;">
+              <td>{{ loop.index }}</td>
+              <td><a href="/artist/{{ artist.name }}">{{ artist.name }}</a></td>
+              <td>{{ artist.country or 'N/A' }}</td>
+              <td>{{ artist.unique_listeners}}</td>
+              <td>
+                {% for tag_count in artist.tag_counts %}
+                  <a href="/genre/{{ tag_count.tag }}" style="color: {{ tag_colors[tag_count.tag] }};">{{ tag_count.tag }}</a>{% if not loop.last %}, {% endif %}
+                {% else %}
+                  No tags for this artist
+                {% endfor %}
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <!--Drop-down Query Explanation-->
+      {{ query_details("get_top_artists", query_display_list) }}
     </div>
   </div>
 </main>
 
-<footer id="main-footer">
-  Footer
-</footer>
+<footer id="main-footer">Website made by Logan Field, Term Project For Applied Database Technologies</footer>
+
+</div>
 
 </body>
 </html>

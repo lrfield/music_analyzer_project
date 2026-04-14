@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Music Analyzer \ Listener</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/pruger/tiny-brutalism-css/tiny-brutalism.css">
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+<div class="container crt">
+  <header><h1>Music Analyzer</h1></header>
+  <nav>
+    <a class="nav-btn" href="/">Home</a>
+    <a class="nav-btn" href="/report">Report</a>
+    <a class="nav-btn" href="/artist">Artist</a>
+    <a class="nav-btn" href="/genre">Genre</a>
+    <a class="nav-btn active" href="/listener">Listener</a>
+  </nav>
+  <!-- Search button taken from this tutorial https://copyprogramming.com/howto/how-to-press-enter-to-redirect-to-other-page -->
+  <div class="box" style="margin-bottom:1rem;">
+  {% if listener_doc %}
+  <h2>To search a different listener:</h2>
+  {% else %}
+  <h2>To search a specific listener:</h2>
+  {% endif %}
+  <input
+    type="text"
+    id="listener-search"
+    placeholder="Enter listener here"
+    onkeydown="if(event.key==='Enter') window.location.href='/listener/'+encodeURIComponent(this.value.trim())"
+    style="width:100%;"
+  >
+  </div>
+  <main>
+    <!-- IF AN LISTENER HAS BEEN SPECIFIED THRU THE ADDRESS -->
+    {% if listener_name %}
+      <div class="box">
+      {% if listener_doc %}
+        {% if listener_artist_pie_chart %}
+        <h2 style="display: flex; justify-content: space-between;">
+          <span>{{ listener_name | title }}</span>
+          <span>Listener Rank: {{ listener_rank }}</span>
+        </h2>
+        <div class="box" style="display:flex; gap:1rem; align-items:flex-start;">
+            <div class="box" style="flex:1; min-width:0;">
+            <!-- Artist Distribution Pie Chart -->
+            <h2>Artist Distribution</h2>
+            <img style="width:100%; height:auto; display:block;"
+                  src="data:image/png;base64,{{ listener_artist_pie_chart }}" alt="Listener Artist Distribution">
+            </div>
+            <!-- Artist Pie Chart -->
+            <div class="box" style="flex:1; min-width:0;">
+              <div class="box">
+                Total Listen Count:
+                {{listener_total_play_count}}
+              </div>
+              <div class="box">
+                # of Unique Genres Listened to:
+                {{unique_genre_count}}
+              </div>
+              Genres listened to: 
+              <div class="box">
+                  {% for tag in listener_genres %}
+                      <a href="/genre/{{ tag }}" style="color: {{ tag_colors[tag] }};">{{ tag }}</a> 
+                  {% endfor %}
+              </div>
+            </div>
+          </div>
+        {% endif %}
+
+        <!-- Artist Document Box-->
+        <!-- JSON filter found through https://jinja.palletsprojects.com/en/stable/templates/#tojson-->
+        <div class="box">
+          <h2>Raw Listener Document Entry in Database</h2>
+            <details>
+                <summary>Listener entries are long. Click to expand.</summary>
+                <pre>{{ listener_doc | tojson(indent=2) }}</pre>
+            </details>
+        </div>
+        
+        <!-- Top Artists List -->
+        <div class="box">
+          <h2>{{ listener_name }}'s Top Artists</h2>
+          <div class="box">
+            <p><strong>Total Listen Count:</strong> {{ listener_doc.total_listen_count }}</p>
+
+            <table>
+              <thead>
+                <tr>
+                  <th>Artist</th>
+                  <th>Listen Count</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for entry in listener_doc.listening_activity %}
+                  <tr>
+                    <td><a href="/artist/{{ entry.artist_name }}">{{ entry.artist_name }}</a></td>
+                    <td>{{ entry.listen_count }}</td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+
+          </div>
+        </div>
+      </div>
+      <!-- IF AN LISTENER HAS BEEN SPECIFIED THRU THE ADDRESS BUT NOT FOUND IN THE DATABASE -->
+      {% else %}
+          <div class="box">
+            <h2>Sorry! Could not find a listener document under the name: "{{listener_name}}"</h2>
+            <h2>¯\_(ツ)_/¯</h2>
+          </div>
+      {% endif %}
+    <!-- IF AN LISTENER HAS NOT BEEN SPECIFIED THRU THE ADDRESS -->
+    {% else %}
+    <div class="box">
+      <!-- Listener Rank Box -->
+      <h2>Top Listeners in Dataset, Ranked by Total Listen History</h2>
+        <div class="box">
+          <table>
+            <thead>
+              <tr>
+                <th>Rank</th>
+                <th>Listener</th>
+                <th>Total Play Count</th>              </tr>
+            </thead>
+            <tbody>
+              {% for listener in top_listeners[:100] %}
+              <tr>
+                <td>{{ loop.index }}</td>
+                <td><a href="/listener/{{ listener._id }}">{{ (listener._id) }} </a></td>
+                <td>{{ "{:,}".format(listener.total_play_count) }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+    </div>
+    {% endif %}
+  </main>
+  <footer id="main-footer">Website made by Logan Field, Term Project For Applied Database Technologies</footer>
+</div>
+</body>
+</html>

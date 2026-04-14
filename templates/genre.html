@@ -1,0 +1,197 @@
+{% from "query_detail_macro.html" import query_details %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Music Analyzer \ Genre</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/pruger/tiny-brutalism-css/tiny-brutalism.css">
+  <link rel="stylesheet" href="/static/styles.css">
+  <script src="/static/player.js"></script>
+</head>
+<body>
+
+<div class="container crt">
+
+  <header><h1>Music Analyzer</h1></header>
+
+  <nav>
+    <a class="nav-btn" href="/">Home</a>
+    <a class="nav-btn" href="/report">Report</a>
+    <a class="nav-btn" href="/artist">Artist</a>
+    <a class="nav-btn active" href="/genre">Genre</a>
+    <a class="nav-btn" href="/listener">Listener</a>
+  </nav>
+
+  <!-- Search button taken from this tutorial https://copyprogramming.com/howto/how-to-press-enter-to-redirect-to-other-page -->
+  <div class="box" style="margin-bottom:1rem;">
+  {% if genre_name %}
+  <h2>To search a different genre:</h2>
+  {% else %}
+  <h2>To search a specific genre:</h2>
+  {% endif %}
+  <input
+    type="text"
+    id="genre-search"
+    placeholder="Enter genre here"
+    onkeydown="if(event.key==='Enter') window.location.href='/genre/'+encodeURIComponent(this.value.trim())"
+    style="width:100%;"
+  >
+  </div>
+
+  <main>
+    <!-- IF AN GENRE HAS BEEN SPECIFIED THRU THE ADDRESS -->
+    {% if genre_name %}
+      {% if genre_doc %}
+        <!-- Main Container -->
+        <div class="box">
+          <h2 style="display: flex; justify-content: space-between; color: {{ tag_colors[genre_name] }};">
+            <span>{{ genre_name | title }}</span>
+            <span>Genre Rank: {{ genre_rank }}</span>
+          </h2>
+          <!-- Country and Artist Pie Charts Box -->
+            {% if genre_artist_pie_chart or genre_country_pie_chart %}
+            <div class="box" style="display:flex; gap:1rem; align-items:flex-start;">
+              {% if genre_artist_pie_chart %}
+              <div class="box" style="flex:1; min-width:0;">
+                <h2>Artist Distribution</h2>
+                <img style="width:100%; height:auto; display:block;" 
+                  src="data:image/png;base64,{{ genre_artist_pie_chart }}" alt="distribution of artists">
+              </div>
+              {% endif %}
+              {% if genre_country_pie_chart %}
+              <div class="box" style="flex:1; min-width:0;">
+                <h2>Country Distribution</h2>
+                <img style="width:100%; height:auto; display:block;"
+                  src="data:image/png;base64,{{ genre_country_pie_chart }}" alt=" distribution of countries">
+              </div>
+              {% endif %}
+            </div>
+            {% endif %}
+          
+          <!-- Music Preview Box Based on tutorial: https://www.codewithfaraz.com/content/459/create-a-music-search-app-using-html-css-and-javascript -->
+          <div class="box">
+            <h2>Preview Song</h2>
+            <div id="music-player">LOADING</div>
+          </div>
+          <script>
+            fetchMusic({{ artist_list[0].name | tojson }}).then(function(el) {
+              document.getElementById('music-player').replaceChildren(el);
+            }).catch(function() {
+              document.getElementById('music-player').textContent = 'No preview available.';
+            });
+          </script>
+          
+          <!-- Artist Map Box -->
+          <div class="box">
+            <h3>Top Artist in {{genre_name}} by Country of Origin</h3>
+            <div class="box">
+              <img style="width:100%; height:auto; display:block;"
+                  src="data:image/png;base64,{{ artist_map }}" alt="Artist origin map">
+              <a href="data:image/png;base64,{{ artist_map }}" target="_blank">open image in new tab</a>
+            </div>
+          </div>
+
+          <!-- Document Entry Box -->
+          <!-- JSON filter found through https://jinja.palletsprojects.com/en/stable/templates/#tojson-->
+          <div class="box">
+          <h2>Raw Genre Document Entry in Database</h2>
+            <pre>{{ genre_doc | tojson(indent=2) }}</pre>
+          </div>
+          
+          <!-- Bar Plot Box -->
+          <div class="box">
+            <h3>Most Popular {{genre_name}} Artists by Career Start Year</h3>
+            <div class="box">
+              <img style="width:100%; height:auto; display:block;"
+                  src="data:image/png;base64,{{ artist_bar }}" alt="Artist bar plot">
+            </div>
+          </div>
+
+          <!-- Top Artists List Box -->
+          <div class="box">
+            <h2>Top Artists in {{ genre_name }}</h2>
+            <table>
+              <thead>
+                <tr>
+                  <th>Artist</th>
+                  <th>Unique Listener Count</th>
+                  <th>Total Listen Count</th>
+                  <th>Country</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for artist in artist_list %}
+                  <tr>
+                    <td><a href="/artist/{{ artist.name }}">{{ artist.name }}</a></td>
+                    <td>{{ artist.unique_listeners }}</td>
+                    <td>{{ artist.play_count }}</td>
+                    <td>{{ artist.country }}</td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      
+      <!-- IF AN GENRE HAS BEEN SPECIFIED THRU THE ADDRESS BUT NOT FOUND-->
+
+      {% else %}
+        <div class="box">
+          <h2>Sorry! Could not find a genre document under the name: "{{genre_name}}"</h2>
+          <h2>¯\_(ツ)_/¯</h2>
+        </div>
+      {% endif %}
+    {% else %}
+    <!-- IF AN GENRE HAS NOT BEEN SPECIFIED THRU THE ADDRESS -->
+    
+      <!-- Top Genre Map Box -->
+      <div class="box">
+        <h2>Top Genre by Country</h2>
+        <div class="box">
+          <img style="width:100%; height:auto; display:block;"
+               src="data:image/png;base64,{{ genre_map }}" alt="Genre origin map">
+            <a href="data:image/png;base64,{{ genre_map }}" target="_blank">open image in new tab</a>
+        </div>
+      </div>
+      
+      <!-- Bar Plot Box -->
+      <div class="box">
+        <h2>Most Popular Genre by Career Start Year</h2>
+        <div class="box">
+          <img style="width:100%; height:auto; display:block;"
+               src="data:image/png;base64,{{ genre_bar }}" alt="Genre bar plot">
+        </div>
+      </div>
+
+      <!-- Genre List Box -->
+      <div class="box">
+        <h2>Top 100 Genres</h2>
+        <div class="box">
+          <table>
+            <thead>
+              <tr>
+                <th>Rank</th>
+                <th>Genre</th>
+                <th>Unique Listener Count</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for genre in genre_list[:100] %}
+              <tr>
+                <td>{{ loop.index }}</td>
+                <td><a href="/genre/{{ genre._id }}" style="color: {{ tag_colors[genre._id] }};">{{ genre._id | title }}</a></td>
+                <td>{{ "{:,}".format(genre.total_unique_listeners) }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+    </div>
+    {% endif %}
+  </main>
+  
+  <footer id="main-footer">Website made by Logan Field, Term Project For Applied Database Technologies</footer>
+</div>
+</body>
+</html>

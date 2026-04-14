@@ -1,0 +1,17 @@
+
+<!-- I did not want to have to keep rewriting this so I learned how to do macros in Jinja-->
+<!-- https://ttl255.com/jinja2-tutorial-part-5-macros/ -->
+<!-- https://jinja.palletsprojects.com/en/stable/templates/#macros-->
+{% macro query_details(function_name, query_display_list) %}
+<div>
+    <details>
+        <summary style="color:#FF129B; text-align: right;">MongoDB Query Used To Create Element</summary>
+            <div class="box">
+            Argument:
+            <pre>{{ query_display_list[function_name]["mongo_arg"] | tojson(indent=2) }}</pre>
+            passed to:
+            <p>{{ query_display_list[function_name]["mongo_function"] }}</p>
+        </div>
+    </details>
+</div>
+{% endmacro %}
