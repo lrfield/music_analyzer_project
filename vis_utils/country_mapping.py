@@ -25,8 +25,8 @@ def country_text_sizer(country_code):
     }
 
     size_to_fontsize = {
-        "large": 19,
-        "medium": 8,
+        "large": 29,
+        "medium": 12,
         "small": 5,
         "tiny": 4,
     }
@@ -50,7 +50,7 @@ def plot_world_map(input_list, country_col='country', value_col='value', color_c
     data = world.merge(df, how='inner', left_on='ISO_A2', right_on=country_col)
 
     # color mapping
-    cmap = cm.Blues
+    cmap = cm.YlOrRd
 
     min_val = data[color_col].min()
     max_val = data[color_col].max()
@@ -90,7 +90,7 @@ def plot_world_map(input_list, country_col='country', value_col='value', color_c
             ha='center',
             fontsize=country_text_sizer(item[country_col]),
             fontfamily='DejaVu Sans Mono',
-            color='black'
+            color='green'
         )
 
 

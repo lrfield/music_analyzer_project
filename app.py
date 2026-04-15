@@ -5,6 +5,8 @@ from vis_utils.query_display_source import query_display_list
 import page_elements.pie_chart_queries as pie_chart
 import page_elements.bar_plot_queries as bar_plot
 import page_elements.map_queries as map
+import page_elements.dendrogram_queries as dendrogram
+import random
 import db as database
 
 # https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-ii-templates
@@ -27,6 +29,16 @@ def home():
                            total_num_genres = total_num_genres,
                            total_num_listeners = total_num_listeners,
                            percent_metal = percent_metal
+                           )
+
+@app.route('/all_artists')
+def all_artists():
+    all_artists = database.get_all_artists()
+    tag_colors = database.get_color_for_tags()
+    return render_template('index.html', 
+                           query_display_list = query_display_list,
+                           all_artists=all_artists, 
+                           tag_colors = tag_colors,
                            )
 
 @app.route('/report')
@@ -86,7 +98,9 @@ def genre_detail(name):
     genre_country_pie_chart = pie_chart.genre_country_pie_chart(name)
     artist_bar = bar_plot.plot_artists_origin_by_year(tag=name)
     artist_list = database.top_artists_for_genre(name,100)
+    music_player_artist = random.choice(artist_list) if artist_list else None
     tag_colors = database.get_color_for_tags()
+    similar_genres = database.get_similar_genres_simple(name)
     return render_template(
         'genre.html', 
         query_display_list = query_display_list,
@@ -98,7 +112,20 @@ def genre_detail(name):
         genre_artist_pie_chart = genre_artist_pie_chart,
         genre_country_pie_chart = genre_country_pie_chart,
         genre_doc = genre_doc,
-        tag_colors = tag_colors
+        music_player_artist = music_player_artist,
+        tag_colors = tag_colors,
+        similar_genres = similar_genres
+        )
+
+@app.route('/genre/dendrogram/<dendrogram_size>')
+def genre_dendrogram(dendrogram_size):
+    dendrogram_size = int(dendrogram_size)
+    genre_dendrogram = dendrogram.plot_genre_dendrogram(dendrogram_size)
+    return render_template(
+        'genre.html', 
+        query_display_list = query_display_list,
+        genre_dendrogram = genre_dendrogram,
+        dendrogram_size = dendrogram_size
         )
 
 @app.route('/listener')

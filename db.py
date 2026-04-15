@@ -165,6 +165,26 @@ def get_top_artists(limit=100):
     artists = artists_col.aggregate(pipeline)
     return list(artists)
 
+def get_all_artists():
+    pipeline = [
+        {
+            "$sort": {
+                "unique_listeners": -1
+            }
+        },
+        {
+            "$project":{
+                "name": 1,
+                "country": 1,
+                "unique_listeners": 1,
+                "tag_counts.tag": 1
+            }
+        }
+    ]
+
+    artists = artists_col.aggregate(pipeline)
+    return list(artists)
+
 def top_artists_for_genre(genre, limit=25):
     pipeline = [
         {
@@ -418,6 +438,54 @@ def get_similar_artists_simple(artist_name, limit = 10):
     ]
 
     return list(listeners_col.aggregate(pipeline))
+
+def get_similar_genres_simple(genre_name, limit = 10):
+    pipeline = [
+        {
+        # limit search set to artist documents that contain tag
+            "$match": {
+                "tag_counts.tag": genre_name
+            }
+
+        },
+        # undwind tag_counts so that each element of the list can be treated as
+        # its own object
+        {
+            "$unwind": "$tag_counts"
+        },
+
+        # Remove the input genre from the count 
+        {
+            "$match": {
+                "tag_counts.tag":{"$ne":genre_name}
+            }
+        },
+        # group by genres occurring in the same artist, take the sum of when this happens
+        {
+            "$group": {
+                "_id": "$tag_counts.tag",
+                "co_occ_count": {"$sum": "$tag_counts.count"}
+            }
+        },
+        # rank by the amount of times genres appear together
+        {
+            "$sort": {"co_occ_count": -1}
+        },
+        # return top # of similar genres
+        {
+            "$limit": limit
+        },
+        # convert the grouped genres back into a single genre list
+        {
+            "$project": {
+                "_id": 0,
+                "genre_name": "$_id",
+                "co_occ_count": 1
+            }
+        }
+    ]
+
+    return list(artists_col.aggregate(pipeline))
 
 def get_similar_artists_thru_genre(artist_name,limit=10):
   artist_doc = artists_col.find_one(

@@ -24,6 +24,47 @@
 </nav>
 
 <main>
+  <!--IF THE USER HAS SPECIFIED THEY WANT TO SEE ALL ARTISTS-->
+  <!--Display only a table from the all artist list-->
+  {% if all_artists %}
+  <div class="box">
+    <h2>All Artists In Dataset</h2>
+    <div class="box">
+      <table style = "border-collapse: collapse; width: 100%;">
+        <thead>
+          <tr>
+            <th>Rank</th>
+            <th>Artist</th>
+            <th>Country</th>
+            <th>Unique Listener Count</th>
+            <th>Tags</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for artist in all_artists %}
+            <tr style = "border-bottom: 5px solid #f3f3f3;">
+              <td>{{ loop.index }}</td>
+              <td><a href="/artist/{{ artist.name }}">{{ artist.name }}</a></td>
+              <td>{{ artist.country or 'N/A' }}</td>
+              <td>{{ artist.unique_listeners}}</td>
+              <td>
+                {% for tag_count in artist.tag_counts %}
+                  <a href="/genre/{{ tag_count.tag }}" style="color: {{ tag_colors[tag_count.tag] }};">{{ tag_count.tag }}</a>{% if not loop.last %}, {% endif %}
+                {% else %}
+                  No tags for this artist
+                {% endfor %}
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <!--Drop-down Query Explanation-->
+      {{ query_details("get_top_artists", query_display_list) }}
+    </div>
+  {% else %}
+
+  <!--IF THE USER HAS NOT SPECIFIED THEY WANT TO SEE ALL ARTISTS-->
+  <!--display the standard landing page-->
   <div class="box">
     <h2>Welcome!</h2>
     <p>
@@ -69,6 +110,9 @@
   <div class="box">
     <h2>Top 100 Artists In Dataset</h2>
     <div class="box">
+      <div class="box">
+        <a href="/all_artists">Show me ALL of the artists!</a> 
+      </div>
       <table style = "border-collapse: collapse; width: 100%;">
         <thead>
           <tr>
@@ -101,6 +145,7 @@
       {{ query_details("get_top_artists", query_display_list) }}
     </div>
   </div>
+  {%endif%}
 </main>
 
 <footer id="main-footer">Website made by Logan Field, Term Project For Applied Database Technologies</footer>

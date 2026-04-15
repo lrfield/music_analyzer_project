@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 # https://matplotlib.org/3.1.1/faq/howto_faq.html#how-to-use-matplotlib-in-a-web-application-server
 def convert_matplot_fig_to_image(fig):
     buffer = io.BytesIO()
-    fig.savefig(buffer, format='png')
+    fig.savefig(buffer, format='png',bbox_inches='tight',pad_inches=0.2)
     buffer.seek(0)
     image_base64 = base64.b64encode(buffer.read()).decode('utf-8')
     plt.close(fig)

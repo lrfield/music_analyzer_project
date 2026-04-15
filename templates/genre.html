@@ -75,7 +75,7 @@
             <div id="music-player">LOADING</div>
           </div>
           <script>
-            fetchMusic({{ artist_list[0].name | tojson }}).then(function(el) {
+            fetchMusic({{ music_player_artist.name | tojson }}).then(function(el) {
               document.getElementById('music-player').replaceChildren(el);
             }).catch(function() {
               document.getElementById('music-player').textContent = 'No preview available.';
@@ -96,7 +96,10 @@
           <!-- JSON filter found through https://jinja.palletsprojects.com/en/stable/templates/#tojson-->
           <div class="box">
           <h2>Raw Genre Document Entry in Database</h2>
-            <pre>{{ genre_doc | tojson(indent=2) }}</pre>
+            <details>
+              <summary>Genre entries are long. Click to expand.</summary>
+              <pre>{{ genre_doc | tojson(indent=2) }}</pre>
+            </details>
           </div>
           
           <!-- Bar Plot Box -->
@@ -132,6 +135,27 @@
               </tbody>
             </table>
           </div>
+
+          <!-- Similar Genres Box-->
+          <div class="box">
+            <h2>Similar genres to {{ genre_name }}</h2>
+            <table>
+              <thead>
+                <tr>
+                  <th>Genre</th>
+                  <th>Co-occurence Count</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for genre in similar_genres %}
+                  <tr>
+                    <td><a href="/genre/{{ genre.genre_name }}" style = "color: {{ tag_colors[genre.genre_name] }};">{{ genre.genre_name }}</a></td>
+                    <td>{{ genre.co_occ_count }}</td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
         </div>
       
       <!-- IF AN GENRE HAS BEEN SPECIFIED THRU THE ADDRESS BUT NOT FOUND-->
@@ -142,10 +166,31 @@
           <h2>¯\_(ツ)_/¯</h2>
         </div>
       {% endif %}
-    {% else %}
-    <!-- IF AN GENRE HAS NOT BEEN SPECIFIED THRU THE ADDRESS -->
+    {% elif dendrogram_size %}
+    <!-- IF AN GENRE HAS NOT BEEN SPECIFIED THRU THE ADDRESS AND DENDOGRAM IS BEING PLOTTED -->
+      <div class="box">
+      <h2>Dendrogram of top {{dendrogram_size}} Genres in Dataset:</h2>
+      <div class="box">
+        <img style="width:100%; height:auto; display:block;"
+              src="data:image/png;base64,{{ genre_dendrogram }}" alt="Genre Dendrogram">
+          <a href="data:image/png;base64,{{ genre_dendrogram }}" target="_blank">open image in new tab</a>
+      </div>
+    </div>
     
+    {%else%}
+    <!-- IF AN GENRE HAS NOT BEEN SPECIFIED THRU THE ADDRESS AND DENDOGRAM IS NOT BEING PLOTTED -->
       <!-- Top Genre Map Box -->
+      <div class="box">
+        <h2>Visualize Genre Dendrograms</h2>
+        <div class="box">
+          <p><a href="/genre/dendrogram/50">Plot Top 50 Genres</a></p>
+          <p><a href="/genre/dendrogram/100">Plot Top 100 Genres</a></p>
+          <p><a href="/genre/dendrogram/200">Plot Top 200 Genres</a></p>
+          <p><a href="/genre/dendrogram/500">Plot Top 500 Genres</a></p>
+        </div>
+        <p>Note: These take some time to load</p>
+      </div>
+
       <div class="box">
         <h2>Top Genre by Country</h2>
         <div class="box">
