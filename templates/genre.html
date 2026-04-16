@@ -1,10 +1,13 @@
 {% from "query_detail_macro.html" import query_details %}
+{% from "navigation_macro.html" import navigation %}
+{% from "search_macro.html" import search_box %}
+{% from "list_table_macro.html" import list_table %}
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Music Analyzer \ Genre</title>
+  <title>MetalDB \ Genre</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/pruger/tiny-brutalism-css/tiny-brutalism.css">
   <link rel="stylesheet" href="/static/styles.css">
   <script src="/static/player.js"></script>
@@ -13,31 +16,13 @@
 
 <div class="container crt">
 
-  <header><h1>Music Analyzer</h1></header>
+  <header><h1>MetalDB \ Genre</h1></header>
 
-  <nav>
-    <a class="nav-btn" href="/">Home</a>
-    <a class="nav-btn" href="/report">Report</a>
-    <a class="nav-btn" href="/artist">Artist</a>
-    <a class="nav-btn active" href="/genre">Genre</a>
-    <a class="nav-btn" href="/listener">Listener</a>
-  </nav>
+  <!-- navigation tab macro -->
+  {{ navigation(current_tab = 'genre') }}
 
-  <!-- Search button taken from this tutorial https://copyprogramming.com/howto/how-to-press-enter-to-redirect-to-other-page -->
-  <div class="box" style="margin-bottom:1rem;">
-  {% if genre_name %}
-  <h2>To search a different genre:</h2>
-  {% else %}
-  <h2>To search a specific genre:</h2>
-  {% endif %}
-  <input
-    type="text"
-    id="genre-search"
-    placeholder="Enter genre here"
-    onkeydown="if(event.key==='Enter') window.location.href='/genre/'+encodeURIComponent(this.value.trim())"
-    style="width:100%;"
-  >
-  </div>
+  <!-- search box macro -->
+  {{ search_box(searched_element = 'genre', conditional_doc = genre_doc)}}
 
   <main>
     <!-- IF AN GENRE HAS BEEN SPECIFIED THRU THE ADDRESS -->
@@ -75,7 +60,7 @@
             <div id="music-player">LOADING</div>
           </div>
           <script>
-            fetchMusic({{ music_player_artist.name | tojson }}).then(function(el) {
+            fetchMusic({{ music_player_artist.artist_name | tojson }}).then(function(el) {
               document.getElementById('music-player').replaceChildren(el);
             }).catch(function() {
               document.getElementById('music-player').textContent = 'No preview available.';
@@ -113,51 +98,18 @@
 
           <!-- Top Artists List Box -->
           <div class="box">
-            <h2>Top Artists in {{ genre_name }}</h2>
-            <table>
-              <thead>
-                <tr>
-                  <th>Artist</th>
-                  <th>Unique Listener Count</th>
-                  <th>Total Listen Count</th>
-                  <th>Country</th>
-                </tr>
-              </thead>
-              <tbody>
-                {% for artist in artist_list %}
-                  <tr>
-                    <td><a href="/artist/{{ artist.name }}">{{ artist.name }}</a></td>
-                    <td>{{ artist.unique_listeners }}</td>
-                    <td>{{ artist.play_count }}</td>
-                    <td>{{ artist.country }}</td>
-                  </tr>
-                {% endfor %}
-              </tbody>
-            </table>
+          <h2>Top Artists in {{ genre_name }}</h2>
+          <!--Table element macro-->
+          {{ list_table(list = artist_list, columns = ['artist_name', 'country', 'play_count', 'unique_listeners'], tag_colors = tag_colors, rank = True)}}  
           </div>
 
           <!-- Similar Genres Box-->
           <div class="box">
-            <h2>Similar genres to {{ genre_name }}</h2>
-            <table>
-              <thead>
-                <tr>
-                  <th>Genre</th>
-                  <th>Co-occurence Count</th>
-                </tr>
-              </thead>
-              <tbody>
-                {% for genre in similar_genres %}
-                  <tr>
-                    <td><a href="/genre/{{ genre.genre_name }}" style = "color: {{ tag_colors[genre.genre_name] }};">{{ genre.genre_name }}</a></td>
-                    <td>{{ genre.co_occ_count }}</td>
-                  </tr>
-                {% endfor %}
-              </tbody>
-            </table>
+          <h2>Similar genres to {{ genre_name }}</h2>
+          <!--Table element macro-->
+          {{ list_table(list = similar_genres, columns = ['genre_name', 'co-occurence_count'], tag_colors = tag_colors, rank = True)}}  
           </div>
-        </div>
-      
+          
       <!-- IF AN GENRE HAS BEEN SPECIFIED THRU THE ADDRESS BUT NOT FOUND-->
 
       {% else %}
@@ -175,6 +127,8 @@
               src="data:image/png;base64,{{ genre_dendrogram }}" alt="Genre Dendrogram">
           <a href="data:image/png;base64,{{ genre_dendrogram }}" target="_blank">open image in new tab</a>
       </div>
+      <!--Drop-down Query Explanation-->
+      {{ query_details("plot_dendrogram", query_display_list) }}
     </div>
     
     {%else%}
@@ -213,25 +167,9 @@
       <div class="box">
         <h2>Top 100 Genres</h2>
         <div class="box">
-          <table>
-            <thead>
-              <tr>
-                <th>Rank</th>
-                <th>Genre</th>
-                <th>Unique Listener Count</th>
-              </tr>
-            </thead>
-            <tbody>
-              {% for genre in genre_list[:100] %}
-              <tr>
-                <td>{{ loop.index }}</td>
-                <td><a href="/genre/{{ genre._id }}" style="color: {{ tag_colors[genre._id] }};">{{ genre._id | title }}</a></td>
-                <td>{{ "{:,}".format(genre.total_unique_listeners) }}</td>
-              </tr>
-              {% endfor %}
-            </tbody>
-          </table>
-        </div>
+        <!--Table element macro-->
+        {{ list_table(list = genre_list, columns = ['genre_name', 'total_unique_listeners'], tag_colors = tag_colors, rank = True)}}
+
     </div>
     {% endif %}
   </main>

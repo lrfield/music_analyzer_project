@@ -518,5 +518,39 @@ query_display_list = {
             {"_id":1, "listening_activity":1}
         ],
         "mongo_function": "db.listeners.find_one()"  
-    }
+    },
+    "plot_dendrogram": {
+        "mongo_arg": [
+            {
+                "$match": {
+                    "tag_counts.tag": "[genre_for_loop_iter]"
+                }
+            },
+            {
+                "$unwind": "$tag_counts"
+            },
+            {
+                "$match": {
+                    "tag_counts.tag": {
+                        "$in": "genre_list",
+                        "$ne": "[genre_for_loop_iter]"
+                    }
+                }
+            },
+            {
+                "$group": {
+                    "_id": "$tag_counts.tag",
+                    "co_occ_count": {"$sum": "$tag_counts.count"}
+                }
+            },
+            {
+                "$project": {
+                    "_id": 0,
+                    "genre": "$_id",
+                    "co_occ_count": 1
+                }
+            }
+        ],
+        "mongo_function": "artists_col.aggregate(pipeline) \nto get one column, loop for every genre in list, \nstore in co-occurence matrix"
+        }
 }

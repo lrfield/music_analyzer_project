@@ -1,0 +1,25 @@
+{% macro search_box(searched_element, conditional_doc) %}
+<!-- Search button functionality taken from this tutorial https://copyprogramming.com/howto/how-to-press-enter-to-redirect-to-other-page -->
+
+<!-- "searched element" controls the type of redirect constructed and the formatting for the text in the box-->
+
+<!-- "conditional doc" just means the element to check to see if you are currently on a page of a
+ specific element already (like artist gatecreeper), then the formatting should be "search for another artist"
+ If on the overview version of a page (artist overview) the formatting should ask "search a specific artist" -->
+
+<div class="box" style="margin-bottom:1rem;">
+{% if conditional_doc %}
+<h2>To search a different {{searched_element}}:</h2>
+{% else %}
+<h2>To search a specific {{searched_element}}:</h2>
+{% endif %}
+<input
+    type="text"
+    id="{{searched_element}}-search"
+    placeholder="Enter {{searched_element}} here"
+    onkeydown="if(event.key==='Enter') window.location.href='/{{searched_element}}/'+encodeURIComponent(this.value.trim())"
+    style="width:100%;"
+>
+</div>
+
+{% endmacro %}

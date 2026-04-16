@@ -1,9 +1,12 @@
 {% from "query_detail_macro.html" import query_details %}
+{% from "navigation_macro.html" import navigation %}
+{% from "list_table_macro.html" import list_table %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Music Analyzer</title>
+  <title>MetalDB</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/pruger/tiny-brutalism-css/tiny-brutalism.css">
   <link rel="stylesheet" href="/static/styles.css">
 </head>
@@ -12,16 +15,10 @@
 <div class = "container crt">
   
 <header>
-  <h1>Music Analyzer</h1>
+  <h1>MetalDB</h1>
 </header>
 
-<nav>
-  <a class="nav-btn" href="/">Home</a>
-  <a class="nav-btn" href="/report">Report</a>
-  <a class="nav-btn" href="/artist">Artist</a>
-  <a class="nav-btn" href="/genre">Genre</a>
-  <a class="nav-btn" href="/listener">Listener</a>
-</nav>
+{{ navigation(current_tab = 'home') }}
 
 <main>
   <!--IF THE USER HAS SPECIFIED THEY WANT TO SEE ALL ARTISTS-->
@@ -30,34 +27,9 @@
   <div class="box">
     <h2>All Artists In Dataset</h2>
     <div class="box">
-      <table style = "border-collapse: collapse; width: 100%;">
-        <thead>
-          <tr>
-            <th>Rank</th>
-            <th>Artist</th>
-            <th>Country</th>
-            <th>Unique Listener Count</th>
-            <th>Tags</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for artist in all_artists %}
-            <tr style = "border-bottom: 5px solid #f3f3f3;">
-              <td>{{ loop.index }}</td>
-              <td><a href="/artist/{{ artist.name }}">{{ artist.name }}</a></td>
-              <td>{{ artist.country or 'N/A' }}</td>
-              <td>{{ artist.unique_listeners}}</td>
-              <td>
-                {% for tag_count in artist.tag_counts %}
-                  <a href="/genre/{{ tag_count.tag }}" style="color: {{ tag_colors[tag_count.tag] }};">{{ tag_count.tag }}</a>{% if not loop.last %}, {% endif %}
-                {% else %}
-                  No tags for this artist
-                {% endfor %}
-              </td>
-            </tr>
-          {% endfor %}
-        </tbody>
-      </table>
+
+      <!--Table element macro-->
+      {{ list_table(list = all_artists, columns = ['artist_name', 'country', 'unique_listeners', 'genre_tags'], tag_colors = tag_colors, rank = True)}}
       <!--Drop-down Query Explanation-->
       {{ query_details("get_top_artists", query_display_list) }}
     </div>
@@ -78,8 +50,8 @@
     </p>
     <p>
       Genres, artists, and listeners are hyperlinked whenever possible, so you can navigate to the analysis of any data item by clicking on it's hyperlink.
-      For a general overview of the data, click the  <a href="/artist">artist</a>, <a href="/genre">artist</a>, or <a href="/genre">listener</a> tabs.
-      For more information, navigate to the <a href="/report">report</a> tab.
+      For a general overview of the data, click the  <a href="/artist", style = "color: #1226ff;">artist</a>, <a href="/genre", style = "color: #1eff12;">genre</a>, or <a href="/listener", style = "color: #ff1212;">listener</a> tabs.
+      For more information, navigate to the <a href="/report", style = "color: #eb12ff;">report</a> tab. \m/...(`n`)…\m/.
     </p>
     
   </div>
@@ -113,34 +85,10 @@
       <div class="box">
         <a href="/all_artists">Show me ALL of the artists!</a> 
       </div>
-      <table style = "border-collapse: collapse; width: 100%;">
-        <thead>
-          <tr>
-            <th>Rank</th>
-            <th>Artist</th>
-            <th>Country</th>
-            <th>Unique Listener Count</th>
-            <th>Tags</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for artist in top_artists %}
-            <tr style = "border-bottom: 5px solid #f3f3f3;">
-              <td>{{ loop.index }}</td>
-              <td><a href="/artist/{{ artist.name }}">{{ artist.name }}</a></td>
-              <td>{{ artist.country or 'N/A' }}</td>
-              <td>{{ artist.unique_listeners}}</td>
-              <td>
-                {% for tag_count in artist.tag_counts %}
-                  <a href="/genre/{{ tag_count.tag }}" style="color: {{ tag_colors[tag_count.tag] }};">{{ tag_count.tag }}</a>{% if not loop.last %}, {% endif %}
-                {% else %}
-                  No tags for this artist
-                {% endfor %}
-              </td>
-            </tr>
-          {% endfor %}
-        </tbody>
-      </table>
+
+      <!--List element macro-->
+      {{ list_table(list = top_artists, columns = ['artist_name', 'country', 'unique_listeners', 'genre_tags'], tag_colors = tag_colors, rank = True)}}
+
       <!--Drop-down Query Explanation-->
       {{ query_details("get_top_artists", query_display_list) }}
     </div>

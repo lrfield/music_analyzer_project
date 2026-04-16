@@ -1,5 +1,12 @@
+/*Main styling adding on top of tiny brutalism is inverting
+the site colors and then adding a CRT filter based off of this tutorial*/
 /*https://aleclownes.com/2017/02/01/crt-display.html*/
 html {
+  filter: invert(1);
+}
+
+/*re-invert music player*/
+#music-player audio {
   filter: invert(1);
 }
 
@@ -25,6 +32,17 @@ html {
     0 0 3px currentColor;
 }
 
-#music-player audio {
-  filter: invert(1);
+/*nav button styling*/
+.nav-btn {
+  font-size: 16px;
 }
+
+.nav-btn.active {
+  font-size: 25px;
+  font-weight: bold; 
+}
+
+.nav-btn.report { color: #eb12ff; }
+.nav-btn.artist { color: #1226ff; }
+.nav-btn.genre { color: #1eff12; }
+.nav-btn.listener { color: #ff1212; }

@@ -1,0 +1,9 @@
+{% macro navigation(current_tab) %}
+<nav>
+<a class="nav-btn home {% if current_tab == 'home' %}active{% endif %}" href="/">Home</a>
+<a class="nav-btn report {% if current_tab == 'report' %}active{% endif %}" href="/report">Report</a>
+<a class="nav-btn artist {% if current_tab == 'artist' %}active{% endif %}" href="/artist">Artist</a>
+<a class="nav-btn genre {% if current_tab == 'genre' %}active{% endif %}" href="/genre">Genre</a>
+<a class="nav-btn listener {% if current_tab == 'listener' %}active{% endif %}" href="/listener">Listener</a>
+</nav>
+{% endmacro %}

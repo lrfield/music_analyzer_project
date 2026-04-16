@@ -154,10 +154,11 @@ def get_top_artists(limit=100):
         },
         {
             "$project":{
-                "name": 1,
+                "_id": 0,
+                "artist_name": "$name",
                 "country": 1,
                 "unique_listeners": 1,
-                "tag_counts.tag": 1
+                "genre_tags": "$tag_counts"
             }
         }
     ]
@@ -174,10 +175,11 @@ def get_all_artists():
         },
         {
             "$project":{
-                "name": 1,
+                "_id": 0,
+                "artist_name": "$name",
                 "country": 1,
                 "unique_listeners": 1,
-                "tag_counts.tag": 1
+                "genre_tags": "$tag_counts"
             }
         }
     ]
@@ -202,7 +204,8 @@ def top_artists_for_genre(genre, limit=25):
         },
         {
             "$project": {
-            "name": 1,
+            "_id": 0,
+            "artist_name": "$name",
             "play_count": 1,
             "unique_listeners": 1,
             "country":1
@@ -277,7 +280,8 @@ def get_genres(limit = 100):
         },
         {
             "$project": {
-                "_id": 1, "total_unique_listeners": 1
+                "genre_name": "$_id", 
+                "total_unique_listeners": 1
                 }
         }
     ]
@@ -333,8 +337,8 @@ def get_listeners_of_artist(artist_name, limit =10):
         },
         {
             "$project":{
-                "_id": 1,
-                "artist_listen_count": "$listening_activity.listen_count",
+                "listener_name": "$_id",
+                "listen_count": "$listening_activity.listen_count",
                 "artist_name": "$listening_activity.artist_name"
             }
         },
@@ -416,12 +420,12 @@ def get_similar_artists_simple(artist_name, limit = 10):
                     "artist_mbid": "$listening_activity.artist_mbid",
                     "artist_name": "$listening_activity.artist_name"
                 },
-                "co_occ_count": {"$sum":1}
+                "co-occurence_count": {"$sum":1}
             }
         },
         # rank by the amount of times artists appear together
         {
-            "$sort": {"co_occ_count": -1}
+            "$sort": {"co-occurence_count": -1}
         },
         # return top # of similar artists
         {
@@ -432,7 +436,7 @@ def get_similar_artists_simple(artist_name, limit = 10):
             "$project": {
                 "_id": 0,
                 "artist_name": "$_id.artist_name",
-                "co_occ_count": 1
+                "co-occurence_count": 1
             }
         }
     ]
@@ -464,12 +468,12 @@ def get_similar_genres_simple(genre_name, limit = 10):
         {
             "$group": {
                 "_id": "$tag_counts.tag",
-                "co_occ_count": {"$sum": "$tag_counts.count"}
+                "co-occurence_count": {"$sum": "$tag_counts.count"}
             }
         },
         # rank by the amount of times genres appear together
         {
-            "$sort": {"co_occ_count": -1}
+            "$sort": {"co-occurence_count": -1}
         },
         # return top # of similar genres
         {
@@ -480,7 +484,7 @@ def get_similar_genres_simple(genre_name, limit = 10):
             "$project": {
                 "_id": 0,
                 "genre_name": "$_id",
-                "co_occ_count": 1
+                "co-occurence_count": 1
             }
         }
     ]

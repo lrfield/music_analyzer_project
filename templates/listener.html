@@ -1,36 +1,25 @@
+{% from "navigation_macro.html" import navigation %}
+{% from "query_detail_macro.html" import query_details %}
+{% from "search_macro.html" import search_box %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Music Analyzer \ Listener</title>
+  <title>MetalDB \ Listener</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/pruger/tiny-brutalism-css/tiny-brutalism.css">
   <link rel="stylesheet" href="/static/styles.css">
 </head>
 <body>
 <div class="container crt">
-  <header><h1>Music Analyzer</h1></header>
-  <nav>
-    <a class="nav-btn" href="/">Home</a>
-    <a class="nav-btn" href="/report">Report</a>
-    <a class="nav-btn" href="/artist">Artist</a>
-    <a class="nav-btn" href="/genre">Genre</a>
-    <a class="nav-btn active" href="/listener">Listener</a>
-  </nav>
-  <!-- Search button taken from this tutorial https://copyprogramming.com/howto/how-to-press-enter-to-redirect-to-other-page -->
-  <div class="box" style="margin-bottom:1rem;">
-  {% if listener_doc %}
-  <h2>To search a different listener:</h2>
-  {% else %}
-  <h2>To search a specific listener:</h2>
-  {% endif %}
-  <input
-    type="text"
-    id="listener-search"
-    placeholder="Enter listener here"
-    onkeydown="if(event.key==='Enter') window.location.href='/listener/'+encodeURIComponent(this.value.trim())"
-    style="width:100%;"
-  >
-  </div>
+  <header><h1>MetalDB \ Listener</h1></header>
+
+  <!-- navigation tab macro -->
+  {{ navigation(current_tab = 'listener') }}
+  
+  <!-- search box macro -->
+  {{ search_box(searched_element = 'listener', conditional_doc = listener_doc)}}
+
   <main>
     <!-- IF AN LISTENER HAS BEEN SPECIFIED THRU THE ADDRESS -->
     {% if listener_name %}
@@ -48,7 +37,7 @@
             <img style="width:100%; height:auto; display:block;"
                   src="data:image/png;base64,{{ listener_artist_pie_chart }}" alt="Listener Artist Distribution">
             </div>
-            <!-- Artist Pie Chart -->
+            <!-- Statistics -->
             <div class="box" style="flex:1; min-width:0;">
               <div class="box">
                 Total Listen Count:

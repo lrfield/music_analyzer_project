@@ -1,39 +1,27 @@
+{% from "navigation_macro.html" import navigation %}
 {% from "query_detail_macro.html" import query_details %}
+{% from "search_macro.html" import search_box %}
+{% from "list_table_macro.html" import list_table %}
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Music Analyzer \ Artist</title>
+  <title>MetalDB \ Artist</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/pruger/tiny-brutalism-css/tiny-brutalism.css">
   <link rel="stylesheet" href="/static/styles.css">
   <script src="/static/player.js"></script>
 </head>
 <body>
 <div class="container crt">
-  <header><h1>Music Analyzer</h1></header>
-  <nav>
-    <a class="nav-btn" href="/">Home</a>
-    <a class="nav-btn" href="/report">Report</a>
-    <a class="nav-btn active" href="/artist">Artist</a>
-    <a class="nav-btn" href="/genre">Genre</a>
-    <a class="nav-btn" href="/listener">Listener</a>
-  </nav>
+  <header><h1>MetalDB \ Artist</h1></header>
   
-  <!-- Search button taken from this tutorial https://copyprogramming.com/howto/how-to-press-enter-to-redirect-to-other-page -->
-  <div class="box" style="margin-bottom:1rem;">
-  {% if artist_doc %}
-  <h2>To search a different artist:</h2>
-  {% else %}
-  <h2>To search a specific artist:</h2>
-  {% endif %}
-  <input
-    type="text"
-    id="artist-search"
-    placeholder="Enter artist here"
-    onkeydown="if(event.key==='Enter') window.location.href='/artist/'+encodeURIComponent(this.value.trim())"
-    style="width:100%;"
-  >
-  </div>
+  <!-- navigation tab macro -->
+  {{ navigation(current_tab = 'artist') }}
+  
+  <!-- search box macro -->
+  {{ search_box(searched_element = 'artist', conditional_doc = artist_doc)}}
 
   <main>
     <!-- IF AN ARTIST HAS BEEN SPECIFIED THRU THE ADDRESS -->
@@ -99,45 +87,20 @@
       <!-- Similar Artists Box-->
       <div class="box">
         <h2>Similar artists to {{ artist_name }}</h2>
-        <table>
-          <thead>
-            <tr>
-              <th>Artist</th>
-              <th>Co-occurence Count</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for artist in artist_similar_artists %}
-              <tr>
-                <td><a href="/artist/{{ artist.artist_name }}">{{ artist.artist_name }}</a></td>
-                <td>{{ artist.co_occ_count }}</td>
-              </tr>
-            {% endfor %}
-          </tbody>
-        </table>
+
+        <!--List element macro-->
+        {{ list_table(list = artist_similar_artists, columns = ['artist_name', 'co-occurence_count'], rank = True)}}
+
         <!--Drop-down Query Explanation-->
         {{ query_details("get_similar_artists_simple", query_display_list) }}
       </div>
 
       <!-- Top Listeners Box -->
       <div class="box">
-        <h2>{{ artist_name }}'s Top Listeners</h2>
-        <table>
-          <thead>
-            <tr>
-              <th>Username</th>
-              <th>Listen Count</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for listener in artist_top_listeners %}
-              <tr>
-                <td><a href="/listener/{{ listener._id }}">{{ listener._id }}</a></td>
-                <td>{{ listener.artist_listen_count }}</td>
-              </tr>
-            {% endfor %}
-          </tbody>
-        </table>
+      <h2>Top Listeners of {{ artist_name }}</h2>
+      <!--List element macro-->
+      {{ list_table(list = artist_top_listeners, columns = ['listener_name', 'listen_count'], rank = True)}}
+
       <!--Drop-down Query Explanation-->
       {{ query_details("get_listeners_of_artist", query_display_list) }}
       </div>

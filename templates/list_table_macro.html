@@ -1,0 +1,50 @@
+
+{% macro list_table(list, columns, tag_colors = None, rank = False) %}
+
+<!-- This is an attempt to make a generic table generator for all of the lists I want to display
+ Across pages. It requires uniform naming in terms of list keys to display link elements correctly. -->
+<table style = "border-collapse: collapse; width: 100%;">
+  <thead>
+    <tr>
+        {% if rank %}
+            <th>Rank</th>
+        {% endif %}
+        {% for key in columns %}
+            <th style="text-align: center;">{{ key | replace('_', ' ') | capitalize }}</th>
+        {% endfor %}
+    </tr>
+  </thead>
+  <tbody>
+    {% for object in list %}
+      <tr style = "border-bottom: 5px solid #f3f3f3;">
+        {% if rank %}
+            <td>{{ loop.index }}</td>
+        {% endif %}
+
+        {% for key in columns %}
+          <td style="text-align: center;">
+            {% if key == 'artist_name' %}
+                <a href="/artist/{{ object[key] }}">{{ object[key] }}</a>
+            {% elif key == 'listener_name' %}
+                <a href="/listener/{{ object[key] }}">{{ object[key] }}</a>
+            {% elif key == 'genre_name' and tag_colors %}
+                <a href="/genre/{{ object[key] }}" style="color: {{ tag_colors[object[key]] }};">{{ object[key] }}</a>
+            {% elif key == 'genre_tags' and tag_colors%}
+                {% if object[key] %}
+                    {% for tag_count in object[key] %}
+                        <a href="/genre/{{ tag_count.tag }}" style="color: {{ tag_colors[tag_count.tag] }};">{{ tag_count.tag }}</a>{% if not loop.last %}, {% endif %}
+                    {% endfor %}
+                {% else %}
+                  No tags for this artist
+                {% endif %}
+            {% else %}
+              {{ object[key] }}
+            {% endif %}
+          </td>
+        {% endfor %}
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% endmacro %}
