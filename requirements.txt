@@ -6,3 +6,5 @@ pymongo
 geodatasets
 geopandas
 pandas
+scipy
+random
