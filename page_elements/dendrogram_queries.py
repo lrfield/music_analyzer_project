@@ -1,11 +1,18 @@
 from vis_utils.dendrogram import plot_dendrogram
-from vis_utils.image_conversion import convert_matplot_fig_to_image
+from vis_utils.image_conversion import convert_matplot_fig_to_image, save_file_to_cache, read_file_from_cache
 from db_constants import db, artists_col, genres_col, listeners_col
 from db import get_genres
 import pandas as pd
 
+
 def plot_genre_dendrogram(limit=100):
     print("plot genre dendogram called")
+
+    dendrogram_file = read_file_from_cache('dendrogram_cache', f"dendrogram_{limit}")
+    if(dendrogram_file):
+        print("Returning locally computed dendrogram stored in static")
+        return dendrogram_file
+    
     # grab a list of genre docs using the db.py function
     genres = get_genres(limit)
     
@@ -73,4 +80,9 @@ def plot_genre_dendrogram(limit=100):
     print("successfully finished co-occ-matrix")
     fig, ax = plot_dendrogram(df)
     print("successfully plotting dendrogram")
-    return convert_matplot_fig_to_image(fig)
+    
+    dendrogram_file = convert_matplot_fig_to_image(fig)
+    print("Saving result to cache in static")
+    save_file_to_cache('dendrogram_cache', f"dendrogram_{limit}", dendrogram_file)
+
+    return dendrogram_file

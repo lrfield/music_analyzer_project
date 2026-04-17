@@ -1,6 +1,7 @@
 from vis_utils.bar_plot import plot_bar
-from vis_utils.image_conversion import convert_matplot_fig_to_image
+from vis_utils.image_conversion import convert_matplot_fig_to_image, save_file_to_cache, read_file_from_cache
 from db_constants import db, artists_col, genres_col, listeners_col
+from db import get_color_for_tags
 
 def plot_artists_origin_by_year(tag=None):
 
@@ -9,6 +10,13 @@ def plot_artists_origin_by_year(tag=None):
     # without filtering by genre tags.
     # There is no way to do that without appending the tag filter outside of the pipeliene (at least that I know of)
 
+    # caching bar plot for commonly repeated query: origin by year without tag
+    if(tag == None):
+        artist_bar_plot_file = read_file_from_cache('bar_plot_cache', "artist_bar_plot_no_tag")
+        if(artist_bar_plot_file):
+            print("Returning locally computed artist origin bar plot (no tags) stored in static")
+            return artist_bar_plot_file
+    
     filter_section = {
         "begin_year": {"$exists": True, "$ne": None}
     }
@@ -32,7 +40,8 @@ def plot_artists_origin_by_year(tag=None):
             "$group": {
                 "_id": "$begin_year",
                 "name": {"$first": "$name"},
-                "unique_listeners": {"$first": "$unique_listeners"}
+                "unique_listeners": {"$first": "$unique_listeners"},
+                "main_genre": {"$first": {"$arrayElemAt": ["$tag_counts.tag", 0]}}
             }
         },
             # re-sort by begin_year (grouping removes sorting)
@@ -49,28 +58,43 @@ def plot_artists_origin_by_year(tag=None):
     
     # convert the pipeline results into the format needed for the bar plot function
     data = [
-        {"category": str(year["_id"]), "value": year["unique_listeners"], "label": year["name"] }
+        {
+            "category": str(year["_id"]),
+            "value": year["unique_listeners"],
+            "label": f"{year["name"]} - {year.get("main_genre")}" ,
+            "main_genre": year.get("main_genre")
+        }
         for year in sorted_year_artists
     ]
+    # get the dict of tag colors for coloring bars individually
+    tag_colors = get_color_for_tags()
 
     # Plot the data
     fig, ax = plot_bar(
         data=data,
         x_axis_title="Unique Listeners",
         y_axis_title="Begin Year",
-        highlight_color="Yellow",
         bar_color="Black",
-        figsize=(12, len(data) * 0.45),
+        figsize=(12, max(len(data) * 0.45,4)),
         bar_height=0.65,
-        cutoff=None,
-        sort = False
+        sort = False,
+        bar_color_map = tag_colors,
+        col_to_det_color = "main_genre"
     )
-    
-    return convert_matplot_fig_to_image(fig)
+    artist_bar_plot_file = convert_matplot_fig_to_image(fig)
+    # saving no tag case to cache
+    if(tag == None):
+        print("Saving result to cache in static")
+        save_file_to_cache('bar_plot_cache', "artist_bar_plot_no_tag", artist_bar_plot_file)
+    return artist_bar_plot_file
 
 
 def plot_genre_by_year():
-
+    # caching bar plot 
+    genre_bar_plot_file = read_file_from_cache('bar_plot_cache', "genre_bar_plot")
+    if(genre_bar_plot_file):
+        print("Returning locally computed genre bar plot stored in static")
+        return genre_bar_plot_file
     pipeline = [
         {
             # filter out artists that dont have the begin_year field filled out
@@ -135,17 +159,25 @@ def plot_genre_by_year():
         for year in sorted_genre_by_year
     ]
 
+    # get the dict of tag colors for coloring bars individually
+    tag_colors = get_color_for_tags()
+    
+
     # Plot the data
     fig, ax = plot_bar(
         data=data,
         x_axis_title="Unique Listeners",
         y_axis_title="Begin Year",
-        highlight_color="Yellow",
         bar_color="Black",
         figsize=(12, len(data) * 0.45),
         bar_height=0.65,
-        cutoff=None,
-        sort = False
+        sort = False,
+        bar_color_map = tag_colors,
+        col_to_det_color = "label"
     )
 
-    return convert_matplot_fig_to_image(fig)
+    genre_bar_plot_file = convert_matplot_fig_to_image(fig)
+    # saving no tag case to cache
+    print("Saving result to cache in static")
+    save_file_to_cache('bar_plot_cache', "genre_bar_plot", genre_bar_plot_file)
+    return genre_bar_plot_file

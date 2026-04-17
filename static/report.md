@@ -58,6 +58,7 @@ https://www.pythoncharts.com/matplotlib/pie-chart-matplotlib/
 CopyProgramming. "Generating a Random Hex Color in Python." *CopyProgramming*.
 https://copyprogramming.com/howto/generating-a-random-hex-color-in-python-2
 
+https://shawnway210.hashnode.dev/caching-in-python
 ---
 
 ## MetaBrainz Endpoints

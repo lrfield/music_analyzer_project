@@ -28,7 +28,10 @@ def get_countries():
 
 def get_color_for_tags():
     genres = genres_col.find({}, {"assigned_color": 1})
-    return {doc["_id"]: doc["assigned_color"] for doc in genres if "assigned_color" in doc}
+    color_map = {genre["_id"]: genre["assigned_color"] for genre in genres if "assigned_color" in genre}
+    # handling case where artist has no specified genre
+    color_map[None] = "#000000"
+    return color_map
 
 def get_total_num_artists():
     return artists_col.count_documents({})
