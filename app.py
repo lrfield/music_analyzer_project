@@ -272,5 +272,9 @@ def listener_detail(_id):
         unique_genre_count = unique_genre_count,
         tag_colors = tag_colors)
 
+@app.route('/health')
+def health():
+    return 'ok', 200
+
 if __name__ == '__main__':
     app.run(debug=False)
