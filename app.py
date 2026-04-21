@@ -1,6 +1,6 @@
 from flask import Flask, render_template
+import matplotlib; matplotlib.use('Agg')
 from vis_utils.artist_image import get_artist_image
-
 from vis_utils.query_display_source import query_display_list
 # list of arguments and functions used to display the drop down
 # "MongoDB Query Used To Create Element" thing
