@@ -52,7 +52,30 @@ query_display_list = {
         "mongo_arg": [{"_id": "[_id]"}, {"listening_activity.artist_name": 1, "_id": 0}],
         "mongo_function": "db.listeners.find_one()"
     },
-
+ 
+    # ~~~~ Ranking Functions ~~~~
+    "get_listener_rank_by_play_count": {
+        "mongo_arg": [
+            [{"_id": "[_id]"}, {"total_play_count": 1}],
+            {"total_play_count": {"$gt": "[listener_play_count]"}}
+        ],
+        "mongo_function": "db.listeners.find_one()\ndb.listeners.count_documents()"
+    },
+    "get_genre_rank_by_unique_listeners": {
+        "mongo_arg": [
+            [{"_id": "[_id]"}, {"total_unique_listeners": 1}],
+            {"total_unique_listeners": {"$gt": "[genre_listener_count]"}}
+        ],
+        "mongo_function": "db.genre_profiles.find_one()\ndb.genre_profiles.count_documents()"
+    },
+    "get_artist_rank_by_unique_listeners": {
+        "mongo_arg": [
+            [{"name": "[name]"}, {"unique_listeners": 1}],
+            {"unique_listeners": {"$gt": "[artist_listener_count]"}}
+        ],
+        "mongo_function": "db.artists.find_one()\ndb.artists.count_documents()"
+    },
+ 
     # ~~~~ Getting a Sorted List of Items ~~~~
     "get_top_artists": {
         "mongo_arg": [
@@ -66,10 +89,30 @@ query_display_list = {
             },
             {
                 "$project": {
-                    "name": 1,
+                    "_id": 0,
+                    "artist_name": "$name",
                     "country": 1,
                     "unique_listeners": 1,
-                    "tag_counts.tag": 1
+                    "genre_tags": "$tag_counts"
+                }
+            }
+        ],
+        "mongo_function": "db.artists.aggregate()"
+    },
+    "get_all_artists": {
+        "mongo_arg": [
+            {
+                "$sort": {
+                    "unique_listeners": -1
+                }
+            },
+            {
+                "$project": {
+                    "_id": 0,
+                    "artist_name": "$name",
+                    "country": 1,
+                    "unique_listeners": 1,
+                    "genre_tags": "$tag_counts"
                 }
             }
         ],
@@ -92,7 +135,8 @@ query_display_list = {
             },
             {
                 "$project": {
-                    "name": 1,
+                    "_id": 0,
+                    "artist_name": "$name",
                     "play_count": 1,
                     "unique_listeners": 1,
                     "country": 1
@@ -162,7 +206,8 @@ query_display_list = {
             },
             {
                 "$project": {
-                    "_id": 1, "total_unique_listeners": 1
+                    "genre_name": "$_id",
+                    "total_unique_listeners": 1
                 }
             }
         ],
@@ -213,8 +258,8 @@ query_display_list = {
             },
             {
                 "$project": {
-                    "_id": 1,
-                    "artist_listen_count": "$listening_activity.listen_count",
+                    "listener_name": "$_id",
+                    "listen_count": "$listening_activity.listen_count",
                     "artist_name": "$listening_activity.artist_name"
                 }
             },
@@ -249,9 +294,9 @@ query_display_list = {
                 }
             }
         ],
-        "mongo_function": "db.artists.aggregate()"
+        "mongo_function": "db.artists.aggregate() (artist_names grabbed from listening activity)"
     },
-
+ 
     # ~~~~ Calculating Similarity ~~~~
     "get_similar_artists_simple": {
         "mongo_arg": [
@@ -274,11 +319,11 @@ query_display_list = {
                         "artist_mbid": "$listening_activity.artist_mbid",
                         "artist_name": "$listening_activity.artist_name"
                     },
-                    "co_occ_count": {"$sum": 1}
+                    "co-occurence_count": {"$sum": 1}
                 }
             },
             {
-                "$sort": {"co_occ_count": -1}
+                "$sort": {"co-occurence_count": -1}
             },
             {
                 "$limit": "[limit]"
@@ -287,24 +332,54 @@ query_display_list = {
                 "$project": {
                     "_id": 0,
                     "artist_name": "$_id.artist_name",
-                    "co_occ_count": 1
+                    "co-occurence_count": 1
                 }
             }
         ],
         "mongo_function": "db.listeners.aggregate()"
     },
-    "get_similar_artists_thru_genre": {
+    "get_similar_genres_simple": {
         "mongo_arg": [
-            {"name": {"$ne": "[artist_name]"}, "tag_counts.tag": {"$in": "[artist_tags]"}},
-            {"name": 1, "country": 1, "tag_counts.tag": 1}
+            {
+                "$match": {
+                    "tag_counts.tag": "[genre_name]"
+                }
+            },
+            {
+                "$unwind": "$tag_counts"
+            },
+            {
+                "$match": {
+                    "tag_counts.tag": {"$ne": "[genre_name]"}
+                }
+            },
+            {
+                "$group": {
+                    "_id": "$tag_counts.tag",
+                    "co-occurence_count": {"$sum": "$tag_counts.count"}
+                }
+            },
+            {
+                "$sort": {"co-occurence_count": -1}
+            },
+            {
+                "$limit": "[limit]"
+            },
+            {
+                "$project": {
+                    "_id": 0,
+                    "genre_name": "$_id",
+                    "co-occurence_count": 1
+                }
+            }
         ],
-        "mongo_function": "db.artists.find()"
+        "mongo_function": "db.artists.aggregate()"
     },
-
+ 
     # ~~~~ Visualization functions ~~~~
-
+ 
     # MAP FUNCTIONS
-
+ 
     "plot_artist_origin_by_country_with_genre": {
         "mongo_arg": [
         {
@@ -312,7 +387,7 @@ query_display_list = {
                 "country": {"$exists": True, "$ne": None},
                 "tag_counts.tag": "[tag]"
             } 
-
+ 
         },
         {
             "$sort": {"unique_listeners": -1}
@@ -326,18 +401,25 @@ query_display_list = {
         },
         {
             "$sort": {"_id": 1}
+        },
+        {
+            "$project":{
+                "country": "$_id",
+                "artist_name":"$name",
+                "unique_listeners": 1
+            }
         }
         ],
         "mongo_function": "db.artists.aggregate()"  
     },
-
+ 
     "plot_artist_origin_by_country_no_genre": {
         "mongo_arg": [
         {
             "$match":{
                 "country": {"$exists": True, "$ne": None}
             } 
-
+ 
         },
         {
             "$sort": {"unique_listeners": -1}
@@ -351,19 +433,26 @@ query_display_list = {
         },
         {
             "$sort": {"_id": 1}
+        },
+        {
+            "$project":{
+                "country": "$_id",
+                "artist_name":"$name",
+                "unique_listeners": 1
+            }
         }
         ],
         "mongo_function": "db.artists.aggregate()"  
     },
-
-    "plot_genre_origin_by_country_no_genre": {
+ 
+    "plot_genre_origin_by_country": {
         "mongo_arg": [
         {
             "$unwind": "$top_countries"
         },
         {
             "$project": {
-                "genre":              "$_id",
+                "genre_name":         "$_id",
                 "country":            "$top_countries._id",
                 "unique_listeners": "$top_countries.unique_listeners",
                 "_id": 0
@@ -375,7 +464,7 @@ query_display_list = {
         {
             "$group": {
                 "_id": "$country",
-                "genre": {"$first": "$genre"},
+                "genre_name": {"$first": "$genre_name"},
                 "unique_listeners": {"$first": "$unique_listeners"}
             }
         },
@@ -383,7 +472,7 @@ query_display_list = {
             "$project": {
                 "_id": 0,
                 "country": "$_id",
-                "genre": 1,
+                "genre_name": 1,
                 "unique_listeners": 1
             }
         },
@@ -393,7 +482,7 @@ query_display_list = {
         ],
         "mongo_function": "db.genre_profiles.aggregate()"  
     },
-
+ 
     # BAR PLOT FUNCTIONS
     "plot_artists_origin_by_year_with_genre": {
         "mongo_arg": [
@@ -411,17 +500,26 @@ query_display_list = {
         {
             "$group": {
                 "_id": "$begin_year",
-                "name": {"$first": "$name"},
-                "unique_listeners": {"$first": "$unique_listeners"}
+                "artist_name": {"$first": "$name"},
+                "unique_listeners": {"$first": "$unique_listeners"},
+                "main_genre": {"$first": {"$arrayElemAt": ["$tag_counts.tag", 0]}}
             }
         },
         {
             "$sort": {"_id": 1}
+        },
+        {
+            "$project":{
+                "begin_year": "$_id",
+                "artist_name": 1,
+                "unique_listeners": 1,
+                "main_genre": 1
+            }
         }
         ],
         "mongo_function": "db.artists.aggregate()"  
     },
-
+ 
     "plot_artists_origin_by_year_no_genre": {
         "mongo_arg": [
         {
@@ -437,17 +535,26 @@ query_display_list = {
         {
             "$group": {
                 "_id": "$begin_year",
-                "name": {"$first": "$name"},
-                "unique_listeners": {"$first": "$unique_listeners"}
+                "artist_name": {"$first": "$name"},
+                "unique_listeners": {"$first": "$unique_listeners"},
+                "main_genre": {"$first": {"$arrayElemAt": ["$tag_counts.tag", 0]}}
             }
         },
         {
             "$sort": {"_id": 1}
+        },
+        {
+            "$project":{
+                "begin_year": "$_id",
+                "artist_name": 1,
+                "unique_listeners": 1,
+                "main_genre": 1
+            }
         }
         ],
         "mongo_function": "db.artists.aggregate()"  
     },
-
+ 
     "plot_genre_by_year": {
         "mongo_arg": [
         {
@@ -485,11 +592,18 @@ query_display_list = {
         },
         {
             "$sort": {"_id": 1}
+        },
+        {
+            "$project":{
+                "begin_year": "$_id",
+                "genre_name": "$genre",
+                "unique_listeners": 1
+            }
         }
         ],
         "mongo_function": "db.artists.aggregate()"  
     },
-
+ 
     # PIE CHART FUNCTIONS
     "artist_genre_tag_pie_chart": {
         "mongo_arg": [

@@ -1,11 +1,12 @@
 {% from "navigation_macro.html" import navigation %}
-{% from "query_detail_macro.html" import query_details %}
+{% from "query_detail_macro.html" import query_details, vis_output_details %}
 {% from "search_macro.html" import search_box %}
 {% from "list_table_macro.html" import list_table %}
 
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <title>MetalDB \ Artist</title>
@@ -13,135 +14,149 @@
   <link rel="stylesheet" href="/static/styles.css">
   <script src="/static/player.js"></script>
 </head>
+
 <body>
-<div class="container crt">
-  <header><h1>MetalDB \ Artist</h1></header>
-  
-  <!-- navigation tab macro -->
-  {{ navigation(current_tab = 'artist') }}
-  
-  <!-- search box macro -->
-  {{ search_box(searched_element = 'artist', conditional_doc = artist_doc)}}
+  <div class="container crt">
+    <header>
+      <h1>MetalDB \ Artist</h1>
+    </header>
 
-  <main>
-    <!-- IF AN ARTIST HAS BEEN SPECIFIED THRU THE ADDRESS -->
-    {% if artist_doc %}
-    <div class="box">
-      <h2 style="display: flex; justify-content: space-between;">
-        <span>{{ artist_name | title }}</span>
-        <span>Artist Rank: {{ artist_rank }}</span>
-      </h2>
+    <!-- navigation tab macro -->
+    {{ navigation(current_tab = 'artist') }}
 
-      <!-- Artist Image and Pie Chart Box-->
-      {% if artist_image or artist_pie_chart %}
-      <div class="box" style="display:flex; gap:1rem; align-items:flex-start;">
-        {% if artist_image %}
-        <div class="box" style="flex:1; min-width:0;">
-          <h2>Artist Image</h2>
-          <img style="width:100%; height:auto; display:block; filter:invert(1);" src="{{ artist_image }}" alt="{{ artist_name }}">
+    <!-- search box macro -->
+    {{ search_box(searched_element = 'artist', conditional_doc = artist_doc)}}
+
+    <main>
+      <!-- IF AN ARTIST HAS BEEN SPECIFIED THRU THE ADDRESS -->
+      {% if artist_doc %}
+      <div class="box">
+        <h2 style="display: flex; justify-content: space-between;">
+          <span>{{ artist_name | title }}</span>
+          <span>Artist Rank: {{ artist_rank }}</span>
+        </h2>
+
+        <!-- Artist Image and Pie Chart Box-->
+        {% if artist_image or artist_pie_chart %}
+        <div class="box" style="display:flex; gap:1rem; align-items:flex-start;">
+          {% if artist_image %}
+          <div class="box" style="flex:1; min-width:0;">
+            <h2>Artist Image</h2>
+            <img style="width:100%; height:auto; display:block; filter:invert(1);" src="{{ artist_image }}"
+              alt="{{ artist_name }}">
+          </div>
+          {% endif %}
+          {% if artist_pie_chart %}
+          <div class="box" style="flex:1; min-width:0;">
+            <h2>Genre Distribution</h2>
+            <img style="width:100%; height:auto; display:block;" src="data:image/png;base64,{{ artist_pie_chart }}"
+              alt="Artist Pie Chart">
+            <!--Drop-down Query Explanation-->
+            {{ query_details("artist_genre_tag_pie_chart", query_display_list) }}
+          </div>
+          {% endif %}
         </div>
         {% endif %}
-        {% if artist_pie_chart %}
-        <div class="box" style="flex:1; min-width:0;">
-          <h2>Genre Distribution</h2>
-          <img style="width:100%; height:auto; display:block;"
-            src="data:image/png;base64,{{ artist_pie_chart }}" alt="Artist Pie Chart">
-          <!--Drop-down Query Explanation-->
-          {{ query_details("artist_genre_tag_pie_chart", query_display_list) }}
+
+        <!-- Music Preview Box Based on tutorial: https://www.codewithfaraz.com/content/459/create-a-music-search-app-using-html-css-and-javascript -->
+        <div class="box">
+          <h2>Preview Song</h2>
+          <div id="music-player">LOADING</div>
+          sometimes the itunes API returns a song with the title of the artist name (I'm still working on it)
         </div>
-        {% endif %}
-      </div>
-      {% endif %}
+        <script>
+          fetchMusic({{ artist_name | tojson }}).then(function (el) {
+            document.getElementById('music-player').replaceChildren(el);
+          }).catch(function () {
+            document.getElementById('music-player').textContent = 'No preview available.';
+          });
+        </script>
 
-      <!-- Music Preview Box Based on tutorial: https://www.codewithfaraz.com/content/459/create-a-music-search-app-using-html-css-and-javascript -->
-      <div class="box">
-        <h2>Preview Song</h2>
-        <div id="music-player">LOADING</div>
-        sometimes the itunes API returns a song with the title of the artist name (I'm still working on it)
-      </div>
-      <script>
-        fetchMusic({{ artist_name | tojson }}).then(function(el) {
-          document.getElementById('music-player').replaceChildren(el);
-        }).catch(function() {
-          document.getElementById('music-player').textContent = 'No preview available.';
-        });
-      </script>
-
-      <!-- Genre Tags Box-->
-      <div class="box">
-        <h2>Genre Tags</h2>
-        {% for tag in artist_doc.tag_counts %}
+        <!-- Genre Tags Box-->
+        <div class="box">
+          <h2>Genre Tags</h2>
+          {% for tag in artist_doc.tag_counts %}
           <p><a href="/genre/{{ tag.tag }}" style="color: {{ tag_colors[tag.tag] }};">{{ tag.tag }}</a></p>
-        {% endfor %}
-      </div>
+          {% endfor %}
+        </div>
 
-      <!-- Artist Document Box-->
-      <!-- JSON filter found through https://jinja.palletsprojects.com/en/stable/templates/#tojson-->
-      <div class="box">
-        <h2>Raw Artist Document Entry in Database</h2>
+        <!-- Artist Document Box-->
+        <!-- JSON filter found through https://jinja.palletsprojects.com/en/stable/templates/#tojson-->
+        <div class="box">
+          <h2>Raw Artist Document Entry in Database</h2>
           <pre>{{ artist_doc | tojson(indent=2) }}</pre>
           <!--Drop-down Query Explanation-->
           {{ query_details("get_artist", query_display_list) }}
-      </div>
-
-      <!-- Similar Artists Box-->
-      <div class="box">
-        <h2>Similar artists to {{ artist_name }}</h2>
-
-        <!--List element macro-->
-        {{ list_table(list = artist_similar_artists, columns = ['artist_name', 'co-occurence_count'], rank = True)}}
-
-        <!--Drop-down Query Explanation-->
-        {{ query_details("get_similar_artists_simple", query_display_list) }}
-      </div>
-
-      <!-- Top Listeners Box -->
-      <div class="box">
-      <h2>Top Listeners of {{ artist_name }}</h2>
-      <!--List element macro-->
-      {{ list_table(list = artist_top_listeners, columns = ['listener_name', 'listen_count'], rank = True)}}
-
-      <!--Drop-down Query Explanation-->
-      {{ query_details("get_listeners_of_artist", query_display_list) }}
-      </div>
-      
-    </div>
-
-    <!-- IF AN ARTIST HAS BEEN SPECIFIED THRU THE ADDRESS BUT NOT FOUND -->
-    {% elif artist_doc is none and artist_name %}
-        <div class="box">
-          <h2>Sorry! Could not find a artist document under the name: "{{artist_name}}"</h2>
-          <h2>¯\_(ツ)_/¯</h2>
         </div>
-    
+
+        <!-- Similar Artists Box-->
+        <div class="box">
+          <h2>Similar artists to {{ artist_name }}</h2>
+
+          <!--List element macro-->
+          {{ list_table(list = artist_similar_artists, columns = ['artist_name', 'co-occurence_count'], rank = True)}}
+
+          <!--Drop-down Query Explanation-->
+          {{ query_details("get_similar_artists_simple", query_display_list) }}
+        </div>
+
+        <!-- Top Listeners Box -->
+        <div class="box">
+          <h2>Top Listeners of {{ artist_name }}</h2>
+          <!--List element macro-->
+          {{ list_table(list = artist_top_listeners, columns = ['listener_name', 'listen_count'], rank = True)}}
+
+          <!--Drop-down Query Explanation-->
+          {{ query_details("get_listeners_of_artist", query_display_list) }}
+        </div>
+
+      </div>
+
+      <!-- IF AN ARTIST HAS BEEN SPECIFIED THRU THE ADDRESS BUT NOT FOUND -->
+      {% elif artist_doc is none and artist_name %}
+      <div class="box">
+        <h2>Sorry! Could not find a artist document under the name: "{{artist_name}}"</h2>
+        <h2>¯\_(ツ)_/¯</h2>
+      </div>
+
       <!-- IF AN ARTIST HAS NOT BEEN SPECIFIED THRU THE ADDRESS -->
       {% else %}
       <!-- Artist Map Box -->
       <div class="box">
         <h2>Top Artist by Country of Orgin</h2>
         <div class="box">
-          <img style="width:100%; height:auto; display:block;"
-               src="data:image/png;base64,{{ artist_map }}" alt="Artist origin map">
-            <a href="data:image/png;base64,{{ artist_map }}" target="_blank">open image in new tab</a>
+          <img style="width:100%; height:auto; display:block;" src="data:image/png;base64,{{ artist_map }}"
+            alt="Artist origin map">
+          <a href="data:image/png;base64,{{ artist_map }}" target="_blank">open image in new tab</a>
         </div>
-          <!--Drop-down Query Explanation-->
-          {{ query_details("plot_artist_origin_by_country_no_genre", query_display_list) }}
+        <!--Drop-down Query Explanation-->
+        {{ query_details("plot_artist_origin_by_country_no_genre", query_display_list) }}
+        <!--Drop-down Output List Created for plot-->
+        {{ vis_output_details(output_list = artist_map_list, output_columns = ['country', 'artist_name',
+        'unique_listeners'], tag_colors = tag_colors, rank = False)}}
       </div>
 
       <!-- Bar Plot Box -->
       <div class="box">
         <h2>Most Popular Artist by Career Start Year</h2>
         <div class="box">
-          <img style="width:100%; height:auto; display:block;"
-               src="data:image/png;base64,{{ artist_bar }}" alt="Artist bar plot">
+          <img style="width:100%; height:auto; display:block;" src="data:image/png;base64,{{ artist_bar }}"
+            alt="Artist bar plot">
         </div>
         <!--Drop-down Query Explanation-->
         {{ query_details("plot_artists_origin_by_year_no_genre", query_display_list) }}
+        <!--Drop-down Output List Created for plot-->
+        {{ vis_output_details(output_list = artist_bar_list, output_columns = ['begin_year', 'artist_name',
+        'unique_listeners', 'main_genre'], tag_colors = tag_colors, rank = False)}}
+
       </div>
-    {% endif %}
+  </div>
+
+  {% endif %}
   </main>
 
   <footer id="main-footer">Website made by Logan Field, Term Project For Applied Database Technologies</footer>
-</div>
+  </div>
 </body>
+
 </html>

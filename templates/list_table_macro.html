@@ -10,6 +10,7 @@
             <th>Rank</th>
         {% endif %}
         {% for key in columns %}
+          <!--automatically generate titles from _ format column names-->
             <th style="text-align: center;">{{ key | replace('_', ' ') | capitalize }}</th>
         {% endfor %}
     </tr>
@@ -17,17 +18,21 @@
   <tbody>
     {% for object in list %}
       <tr style = "border-bottom: 5px solid #f3f3f3;">
+        <!--create rank numbers on left side of table-->
         {% if rank %}
             <td>{{ loop.index }}</td>
         {% endif %}
-
         {% for key in columns %}
           <td style="text-align: center;">
+            <!--construct artist hyperlink with list values if the column name is artist_name-->
             {% if key == 'artist_name' %}
                 <a href="/artist/{{ object[key] }}">{{ object[key] }}</a>
+            <!--construct listener hyperlink with list values if the column name is listener_name-->
             {% elif key == 'listener_name' %}
                 <a href="/listener/{{ object[key] }}">{{ object[key] }}</a>
-            {% elif key == 'genre_name' and tag_colors %}
+            <!--construct genre hyperlink, colored by genre tag color list-->
+            <!--handle cases of either a list of individual genres or a list of nested genre tag entries-->
+            {% elif (key =='genre_name' or key =='main_genre') and tag_colors and object[key] != None %}
                 <a href="/genre/{{ object[key] }}" style="color: {{ tag_colors[object[key]] }};">{{ object[key] }}</a>
             {% elif key == 'genre_tags' and tag_colors%}
                 {% if object[key] %}
@@ -37,6 +42,7 @@
                 {% else %}
                   No tags for this artist
                 {% endif %}
+            <!--default entry case-->
             {% else %}
               {{ object[key] }}
             {% endif %}

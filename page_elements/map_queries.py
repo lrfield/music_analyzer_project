@@ -1,7 +1,14 @@
 from vis_utils.country_mapping import plot_world_map
-from vis_utils.image_conversion import convert_matplot_fig_to_image, save_file_to_cache, read_file_from_cache
-from db_constants import db, artists_col, genres_col, listeners_col
+from vis_utils.image_conversion import convert_matplot_fig_to_image
+from vis_utils.cache import save_file_to_cache, read_file_from_cache, save_json_to_cache, read_json_from_cache
+from mongodb_queries.db_constants import db, artists_col, genres_col, listeners_col
+import pycountry
 
+# convert ISO code to country name 
+# https://pypi.org/project/pycountry/
+def return_country_name(ISO_code):
+    country = pycountry.countries.get(alpha_2=ISO_code)
+    return country.name if country else None
 
 def plot_artist_origin_by_country(tag = None):
     # The filtering section/$match stage has to be constructed seperately
@@ -12,9 +19,10 @@ def plot_artist_origin_by_country(tag = None):
     # caching map for commonly repeated query: origin by country without tag
     if(tag == None):
         artist_country_map_file = read_file_from_cache('map_cache', "artist_country_map_no_tag")
-        if(artist_country_map_file):
+        top_artists_by_country  = read_json_from_cache('map_cache', "artist_country_map_no_tag_list")
+        if((artist_country_map_file != None) and (top_artists_by_country != None)):
             print("Returning locally computed artist country map (no tags) stored in static")
-            return artist_country_map_file
+            return artist_country_map_file, top_artists_by_country
 
     filter_section = {
         "country": {"$exists": True, "$ne": None}
@@ -47,6 +55,14 @@ def plot_artist_origin_by_country(tag = None):
         # sort the results alphabetically
         {
             "$sort": {"_id": 1}
+        },
+        # rename fields
+        {
+            "$project":{
+                "country": "$_id",
+                "artist_name":"$name",
+                "unique_listeners": 1
+            }
         }
     ]
 
@@ -56,26 +72,37 @@ def plot_artist_origin_by_country(tag = None):
         return None
 
     data = [
-        {'country': country['_id'], 'value': country['name'], 'color_value': country['unique_listeners']}
+        {'country': country['country'], 'value': country['artist_name'], 'color_value': country['unique_listeners']}
         for country in top_artists_by_country
     ]
 
     fig, ax = plot_world_map(data)
     artist_country_map_file = convert_matplot_fig_to_image(fig)
+
+    # converting country ISO code to string country name in list
+    # # important! this step should not take place before calling plot_world_map
+    # # The map plotting needs ISO country codes 
+    for artist in top_artists_by_country:
+        country_string = return_country_name(artist['country'])
+        if(country_string):
+            artist['country'] = country_string
+
     # saving no tag case to cache
-    
     if(tag == None):
         print("Saving result to cache in static")
         save_file_to_cache('map_cache', "artist_country_map_no_tag", artist_country_map_file)
-    return artist_country_map_file
+        save_json_to_cache('map_cache', "artist_country_map_no_tag_list", top_artists_by_country)
+    return artist_country_map_file, top_artists_by_country
 
 
 def plot_genre_origin_by_country():
 
     genre_country_map_file = read_file_from_cache('map_cache', "genre_country_map")
-    if(genre_country_map_file):
+    top_genres_by_country  = read_json_from_cache('map_cache', "genre_country_map_list")
+
+    if((genre_country_map_file != None) and (top_genres_by_country != None)):
         print("Returning locally computed genre country map stored in static")
-        return genre_country_map_file
+        return genre_country_map_file, top_genres_by_country
 
     pipeline = [
         {
@@ -83,7 +110,7 @@ def plot_genre_origin_by_country():
         },
         {
             "$project": {
-                "genre":              "$_id",
+                "genre_name":              "$_id",
                 "country":            "$top_countries._id",
                 "unique_listeners": "$top_countries.unique_listeners",
                 "_id": 0
@@ -95,7 +122,7 @@ def plot_genre_origin_by_country():
         {
             "$group": {
                 "_id": "$country",
-                "genre": {"$first": "$genre"},
+                "genre_name": {"$first": "$genre_name"},
                 "unique_listeners": {"$first": "$unique_listeners"}
             }
         },
@@ -103,7 +130,7 @@ def plot_genre_origin_by_country():
             "$project": {
                 "_id": 0,
                 "country": "$_id",
-                "genre": 1,
+                "genre_name": 1,
                 "unique_listeners": 1
             }
         },
@@ -115,13 +142,25 @@ def plot_genre_origin_by_country():
     top_genres_by_country = list(genres_col.aggregate(pipeline))
 
     data = [
-        {'country': entry['country'], 'value': entry['genre'], 'color_value': entry['unique_listeners']}
+        {'country': entry['country'], 'value': entry['genre_name'], 'color_value': entry['unique_listeners']}
         for entry in top_genres_by_country
     ]
 
     fig, ax = plot_world_map(data)
     genre_country_map_file = convert_matplot_fig_to_image(fig)
+
+    # converting country ISO code to string country name in list
+    # # important! this step should not take place before calling plot_world_map
+    # # The map plotting needs ISO country codes 
+    for genre in top_genres_by_country:
+        country_string = return_country_name(genre['country'])
+        if(country_string):
+            genre['country'] = country_string
+
+
     # saving map to cache
     print("Saving result to cache in static")
     save_file_to_cache('map_cache', "genre_country_map", genre_country_map_file)
-    return genre_country_map_file
+    save_json_to_cache('map_cache', "genre_country_map_list", top_genres_by_country)
+
+    return genre_country_map_file, top_genres_by_country

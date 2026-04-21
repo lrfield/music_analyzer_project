@@ -2,6 +2,13 @@
 <!-- I did not want to have to keep rewriting this so I learned how to do macros in Jinja-->
 <!-- https://ttl255.com/jinja2-tutorial-part-5-macros/ -->
 <!-- https://jinja.palletsprojects.com/en/stable/templates/#macros-->
+{% from "list_table_macro.html" import list_table %}
+
+<!--Display a drop down that shows a json of the argument used to create a function output-->
+<!--query display list sourced from vis_utils/query_display_source-->
+<!--But I am individually importing it by page. There is probably a more elegant way to do this-->
+<!--Importing the query_display_list directly into this macro probably...-->
+
 {% macro query_details(function_name, query_display_list) %}
 <div>
     <details>
@@ -14,4 +21,17 @@
         </div>
     </details>
 </div>
+{% endmacro %}
+
+<!--Display a drop down that builds a table, specifically for the case of showing-->
+<!--Up underneath a visualization to view the more 'raw' data used to make a plot-->
+
+{% macro vis_output_details(output_list, output_columns, tag_colors, rank) %}
+<details>
+<summary style="color:#1e12ff; text-align: right;">View the Data Visualized in this Plot</summary>
+        <div class="box">
+        <!--Table element macro-->
+        {{ list_table(list = output_list, columns = output_columns, tag_colors = tag_colors, rank = rank)}}
+    </div>
+</details>
 {% endmacro %}

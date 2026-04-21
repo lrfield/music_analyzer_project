@@ -1,10 +1,11 @@
-{% from "query_detail_macro.html" import query_details %}
+{% from "query_detail_macro.html" import query_details, vis_output_details %}
 {% from "navigation_macro.html" import navigation %}
 {% from "search_macro.html" import search_box %}
 {% from "list_table_macro.html" import list_table %}
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <title>MetalDB \ Genre</title>
@@ -12,127 +13,153 @@
   <link rel="stylesheet" href="/static/styles.css">
   <script src="/static/player.js"></script>
 </head>
+
 <body>
 
-<div class="container crt">
+  <div class="container crt">
 
-  <header><h1>MetalDB \ Genre</h1></header>
+    <header>
+      <h1>MetalDB \ Genre</h1>
+    </header>
 
-  <!-- navigation tab macro -->
-  {{ navigation(current_tab = 'genre') }}
+    <!-- navigation tab macro -->
+    {{ navigation(current_tab = 'genre') }}
 
-  <!-- search box macro -->
-  {{ search_box(searched_element = 'genre', conditional_doc = genre_doc)}}
+    <!-- search box macro -->
+    {{ search_box(searched_element = 'genre', conditional_doc = genre_doc)}}
 
-  <main>
-    <!-- IF AN GENRE HAS BEEN SPECIFIED THRU THE ADDRESS -->
-    {% if genre_name %}
+    <main>
+      <!-- IF AN GENRE HAS BEEN SPECIFIED THRU THE ADDRESS -->
+      {% if genre_name %}
       {% if genre_doc %}
-        <!-- Main Container -->
+      <!-- Main Container -->
+      <div class="box">
+        <h2 style="display: flex; justify-content: space-between; color: {{ tag_colors[genre_name] }};">
+          <span>{{ genre_name | title }}</span>
+          <span>Genre Rank: {{ genre_rank }}</span>
+        </h2>
+        <!-- Country and Artist Pie Charts Box -->
+        {% if genre_artist_pie_chart or genre_country_pie_chart %}
+        <div class="box" style="display:flex; gap:1rem; align-items:flex-start;">
+          {% if genre_artist_pie_chart %}
+          <div class="box" style="flex:1; min-width:0;">
+            <h2>Artist Distribution</h2>
+            <img style="width:100%; height:auto; display:block;"
+              src="data:image/png;base64,{{ genre_artist_pie_chart }}" alt="distribution of artists">
+            <!--Drop-down Query Explanation-->
+            {{ query_details("genre_artist_pie_chart", query_display_list) }}
+          </div>
+          {% endif %}
+          {% if genre_country_pie_chart %}
+          <div class="box" style="flex:1; min-width:0;">
+            <h2>Country Distribution</h2>
+            <img style="width:100%; height:auto; display:block;"
+              src="data:image/png;base64,{{ genre_country_pie_chart }}" alt=" distribution of countries">
+            <!--Drop-down Query Explanation-->
+            {{ query_details("genre_country_pie_chart", query_display_list) }}
+          </div>
+          {% endif %}
+        </div>
+        {% endif %}
+
+        <!-- Music Preview Box Based on tutorial: https://www.codewithfaraz.com/content/459/create-a-music-search-app-using-html-css-and-javascript -->
         <div class="box">
-          <h2 style="display: flex; justify-content: space-between; color: {{ tag_colors[genre_name] }};">
-            <span>{{ genre_name | title }}</span>
-            <span>Genre Rank: {{ genre_rank }}</span>
-          </h2>
-          <!-- Country and Artist Pie Charts Box -->
-            {% if genre_artist_pie_chart or genre_country_pie_chart %}
-            <div class="box" style="display:flex; gap:1rem; align-items:flex-start;">
-              {% if genre_artist_pie_chart %}
-              <div class="box" style="flex:1; min-width:0;">
-                <h2>Artist Distribution</h2>
-                <img style="width:100%; height:auto; display:block;" 
-                  src="data:image/png;base64,{{ genre_artist_pie_chart }}" alt="distribution of artists">
-              </div>
-              {% endif %}
-              {% if genre_country_pie_chart %}
-              <div class="box" style="flex:1; min-width:0;">
-                <h2>Country Distribution</h2>
-                <img style="width:100%; height:auto; display:block;"
-                  src="data:image/png;base64,{{ genre_country_pie_chart }}" alt=" distribution of countries">
-              </div>
-              {% endif %}
-            </div>
-            {% endif %}
-          
-          <!-- Music Preview Box Based on tutorial: https://www.codewithfaraz.com/content/459/create-a-music-search-app-using-html-css-and-javascript -->
-          <div class="box">
-            <h2>Preview Song</h2>
-            <div id="music-player">LOADING</div>
-          </div>
-          <script>
-            fetchMusic({{ music_player_artist.artist_name | tojson }}).then(function(el) {
-              document.getElementById('music-player').replaceChildren(el);
-            }).catch(function() {
-              document.getElementById('music-player').textContent = 'No preview available.';
-            });
-          </script>
-          
-          <!-- Artist Map Box -->
-          <div class="box">
-            <h3>Top Artist in {{genre_name}} by Country of Origin</h3>
-            <div class="box">
-              <img style="width:100%; height:auto; display:block;"
-                  src="data:image/png;base64,{{ artist_map }}" alt="Artist origin map">
-              <a href="data:image/png;base64,{{ artist_map }}" target="_blank">open image in new tab</a>
-            </div>
-          </div>
+          <h2>Preview Song</h2>
+          <div id="music-player">LOADING</div>
+        </div>
+        <script>
+          fetchMusic({{ music_player_artist.artist_name | tojson }}).then(function (el) {
+            document.getElementById('music-player').replaceChildren(el);
+          }).catch(function () {
+            document.getElementById('music-player').textContent = 'No preview available.';
+          });
+        </script>
 
-          <!-- Document Entry Box -->
-          <!-- JSON filter found through https://jinja.palletsprojects.com/en/stable/templates/#tojson-->
+        <!-- Artist Map Box -->
+        <div class="box">
+          <h3>Top Artist in {{genre_name}} by Country of Origin</h3>
           <div class="box">
+            <img style="width:100%; height:auto; display:block;" src="data:image/png;base64,{{ artist_map }}"
+              alt="Artist origin map">
+            <a href="data:image/png;base64,{{ artist_map }}" target="_blank">open image in new tab</a>
+          </div>
+          <!--Drop-down Query Explanation-->
+          {{ query_details("plot_artist_origin_by_country_with_genre", query_display_list) }}
+          <!--Drop-down Output List Created for plot-->
+          {{ vis_output_details(output_list = artist_map_list, output_columns = ['country', 'artist_name',
+          'unique_listeners'],rank = False)}}
+        </div>
+
+        <!-- Document Entry Box -->
+        <!-- JSON filter found through https://jinja.palletsprojects.com/en/stable/templates/#tojson-->
+        <div class="box">
           <h2>Raw Genre Document Entry in Database</h2>
-            <details>
-              <summary>Genre entries are long. Click to expand.</summary>
-              <pre>{{ genre_doc | tojson(indent=2) }}</pre>
-            </details>
-          </div>
-          
-          <!-- Bar Plot Box -->
-          <div class="box">
-            <h3>Most Popular {{genre_name}} Artists by Career Start Year</h3>
-            <div class="box">
-              <img style="width:100%; height:auto; display:block;"
-                  src="data:image/png;base64,{{ artist_bar }}" alt="Artist bar plot">
-            </div>
-          </div>
+          <details>
+            <summary>Genre entries are long. Click to expand.</summary>
+            <pre>{{ genre_doc | tojson(indent=2) }}</pre>
+          </details>
+          <!--Drop-down Query Explanation-->
+          {{ query_details("get_genre", query_display_list) }}
+        </div>
 
-          <!-- Top Artists List Box -->
+        <!-- Bar Plot Box -->
+        <div class="box">
+          <h3>Most Popular {{genre_name}} Artists by Career Start Year</h3>
           <div class="box">
+            <img style="width:100%; height:auto; display:block;" src="data:image/png;base64,{{ artist_bar }}"
+              alt="Artist bar plot">
+          </div>
+          <!--Drop-down Query Explanation-->
+          {{ query_details("plot_artists_origin_by_year_with_genre", query_display_list) }}
+          <!--Drop-down Output List Created for plot-->
+          {{ vis_output_details(output_list = artist_bar_list, output_columns = ['begin_year', 'artist_name',
+          'unique_listeners', 'main_genre'], tag_colors = tag_colors, rank = False)}}
+        </div>
+
+        <!-- Top Artists List Box -->
+        <div class="box">
           <h2>Top Artists in {{ genre_name }}</h2>
           <!--Table element macro-->
-          {{ list_table(list = artist_list, columns = ['artist_name', 'country', 'play_count', 'unique_listeners'], tag_colors = tag_colors, rank = True)}}  
-          </div>
+          {{ list_table(list = artist_list, columns = ['artist_name', 'country', 'play_count', 'unique_listeners'],
+          tag_colors = tag_colors, rank = True)}}
+          <!--Drop-down Query Explanation-->
+          {{ query_details("top_artists_for_genre", query_display_list) }}
+        </div>
 
-          <!-- Similar Genres Box-->
-          <div class="box">
+        <!-- Similar Genres Box-->
+        <div class="box">
           <h2>Similar genres to {{ genre_name }}</h2>
           <!--Table element macro-->
-          {{ list_table(list = similar_genres, columns = ['genre_name', 'co-occurence_count'], tag_colors = tag_colors, rank = True)}}  
-          </div>
-          
+          {{ list_table(list = similar_genres, columns = ['genre_name', 'co-occurence_count'], tag_colors = tag_colors,
+          rank = True)}}
+          <!--Drop-down Query Explanation-->
+          {{ query_details("get_similar_genres_simple", query_display_list) }}
+        </div>
+      </div>
+
       <!-- IF AN GENRE HAS BEEN SPECIFIED THRU THE ADDRESS BUT NOT FOUND-->
 
       {% else %}
-        <div class="box">
-          <h2>Sorry! Could not find a genre document under the name: "{{genre_name}}"</h2>
-          <h2>¯\_(ツ)_/¯</h2>
-        </div>
-      {% endif %}
-    {% elif dendrogram_size %}
-    <!-- IF AN GENRE HAS NOT BEEN SPECIFIED THRU THE ADDRESS AND DENDOGRAM IS BEING PLOTTED -->
       <div class="box">
-      <h2>Dendrogram of top {{dendrogram_size}} Genres in Dataset:</h2>
-      <div class="box">
-        <img style="width:100%; height:auto; display:block;"
-              src="data:image/png;base64,{{ genre_dendrogram }}" alt="Genre Dendrogram">
-          <a href="data:image/png;base64,{{ genre_dendrogram }}" target="_blank">open image in new tab</a>
+        <h2>Sorry! Could not find a genre document under the name: "{{genre_name}}"</h2>
+        <h2>¯\_(ツ)_/¯</h2>
       </div>
-      <!--Drop-down Query Explanation-->
-      {{ query_details("plot_dendrogram", query_display_list) }}
-    </div>
-    
-    {%else%}
-    <!-- IF AN GENRE HAS NOT BEEN SPECIFIED THRU THE ADDRESS AND DENDOGRAM IS NOT BEING PLOTTED -->
+      {% endif %}
+      {% elif dendrogram_size %}
+      <!-- IF AN GENRE HAS NOT BEEN SPECIFIED THRU THE ADDRESS AND DENDOGRAM IS BEING PLOTTED -->
+      <div class="box">
+        <h2>Dendrogram of top {{dendrogram_size}} Genres in Dataset:</h2>
+        <div class="box">
+          <img style="width:100%; height:auto; display:block;" src="data:image/png;base64,{{ genre_dendrogram }}"
+            alt="Genre Dendrogram">
+          <a href="data:image/png;base64,{{ genre_dendrogram }}" target="_blank">open image in new tab</a>
+        </div>
+        <!--Drop-down Query Explanation-->
+        {{ query_details("plot_dendrogram", query_display_list) }}
+      </div>
+
+      {%else%}
+      <!-- IF AN GENRE HAS NOT BEEN SPECIFIED THRU THE ADDRESS AND DENDOGRAM IS NOT BEING PLOTTED -->
       <!-- Top Genre Map Box -->
       <div class="box">
         <h2>Visualize Genre Dendrograms</h2>
@@ -142,39 +169,52 @@
           <p><a href="/genre/dendrogram/200">Plot Top 200 Genres</a></p>
           <p><a href="/genre/dendrogram/500">Plot Top 500 Genres</a></p>
         </div>
-        <p>Note: These take some time to load</p>
       </div>
 
       <div class="box">
         <h2>Top Genre by Country</h2>
         <div class="box">
-          <img style="width:100%; height:auto; display:block;"
-               src="data:image/png;base64,{{ genre_map }}" alt="Genre origin map">
-            <a href="data:image/png;base64,{{ genre_map }}" target="_blank">open image in new tab</a>
+          <img style="width:100%; height:auto; display:block;" src="data:image/png;base64,{{ genre_map }}"
+            alt="Genre origin map">
+          <a href="data:image/png;base64,{{ genre_map }}" target="_blank">open image in new tab</a>
         </div>
+        <!--Drop-down Query Explanation-->
+        {{ query_details("plot_genre_origin_by_country", query_display_list) }}
+        <!--Drop-down Output List Created for plot-->
+        {{ vis_output_details(output_list = genre_map_list, output_columns = ['country', 'genre_name',
+        'unique_listeners'], tag_colors = tag_colors, rank = False)}}
       </div>
-      
+
       <!-- Bar Plot Box -->
       <div class="box">
         <h2>Most Popular Genre by Career Start Year</h2>
         <div class="box">
-          <img style="width:100%; height:auto; display:block;"
-               src="data:image/png;base64,{{ genre_bar }}" alt="Genre bar plot">
+          <img style="width:100%; height:auto; display:block;" src="data:image/png;base64,{{ genre_bar }}"
+            alt="Genre bar plot">
         </div>
+        <!--Drop-down Query Explanation-->
+        {{ query_details("plot_genre_by_year", query_display_list) }}
+        <!--Drop-down Output List Created for plot-->
+        {{ vis_output_details(output_list = genre_bar_list, output_columns = ['begin_year', 'genre_name',
+        'unique_listeners'], tag_colors = tag_colors, rank = False)}}
       </div>
 
       <!-- Genre List Box -->
       <div class="box">
         <h2>Top 100 Genres</h2>
         <div class="box">
-        <!--Table element macro-->
-        {{ list_table(list = genre_list, columns = ['genre_name', 'total_unique_listeners'], tag_colors = tag_colors, rank = True)}}
-
-    </div>
-    {% endif %}
-  </main>
-  
-  <footer id="main-footer">Website made by Logan Field, Term Project For Applied Database Technologies</footer>
-</div>
+          <!--Table element macro-->
+          {{ list_table(list = genre_list, columns = ['genre_name', 'total_unique_listeners'], tag_colors =
+          tag_colors, rank = True)}}
+        </div>
+        <!--Drop-down Query Explanation-->
+        {{ query_details("get_genres", query_display_list) }}
+      </div>
+      {% endif %}
+    </main>
+    <footer id="main-footer">Website made by Logan Field, Term Project For Applied Database Technologies</footer>
+  </div>
 </body>
+
+
 </html>

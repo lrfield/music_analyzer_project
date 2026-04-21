@@ -1,7 +1,8 @@
 from vis_utils.dendrogram import plot_dendrogram
-from vis_utils.image_conversion import convert_matplot_fig_to_image, save_file_to_cache, read_file_from_cache
-from db_constants import db, artists_col, genres_col, listeners_col
-from db import get_genres
+from vis_utils.image_conversion import convert_matplot_fig_to_image
+from vis_utils.cache import save_file_to_cache, read_file_from_cache, save_json_to_cache, read_json_from_cache
+from mongodb_queries.db_constants import db, artists_col, genres_col, listeners_col
+from mongodb_queries.genre_col_queries import get_genres
 import pandas as pd
 
 
