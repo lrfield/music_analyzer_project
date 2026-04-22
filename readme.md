@@ -42,7 +42,7 @@ The listener, artist, and genre tabs follow an address-based navigation structur
 
 **If an Artist is not specified through the address `/artist`:**
 
-Map Visualization of the most popular artist (measured by unique listener count within sampled listeners) by country of origin.
+**Map Visualization of the most popular artist (measured by unique listener count within sampled listeners) by country of origin.**
 
 ![artist_tab_country.png](pictures_for_report/artist_tab/artist_tab_country.png)
 
@@ -50,7 +50,7 @@ Map Visualization of the most popular artist (measured by unique listener count 
 
 [source of mongoDB query for element](#map_queries)
 
-Bar plot of the most popular artist (by unique listener count) by artist career start year.
+**Bar plot of the most popular artist (by unique listener count) by artist career start year.**
 
 ![artist_tab_bar_plot.png](pictures_for_report/artist_tab/artist_tab_bar_plot.png)
 
@@ -62,37 +62,37 @@ Due to the fact that both of these plots are regularly queried, to improve respo
 
 **If an Artist is not specified through the address `/artist/Death`:**
 
-Artist rank (calculated by their position on the list of artists in the dataset sorted by total listener)
+**Artist rank (calculated by their position on the list of artists in the dataset sorted by total listener)**
 
 ![artist_tab_rank.png](pictures_for_report/artist_tab/artist_tab_rank.png)
 
 [source of mongoDB query for element](#artist_col_queries)
 
-Profile Image of the artist
+**Profile Image of the artist**
 
 ![artist_tab_image.png](pictures_for_report/artist_tab/artist_tab_image.png)
 
 [code to display element](#artist_picture)
 
-Pie chart visualization of distribution of user-voted genre tags from the MusicBrainz API.
+**Pie chart visualization of distribution of user-voted genre tags from the MusicBrainz API.**
 
 ![artist_tab_genre_dist.png](pictures_for_report/artist_tab/artist_tab_genre_dist.png)
 
-A music Player with a preview song for the artist (created using the Itunes API)
+**A music Player with a preview song for the artist (created using the Itunes API)**
 
 ![artist_tab_preview_song.png](pictures_for_report/artist_tab/artist_tab_preview_song.png)
 
 [code to display element](#music_player)
 
-Genre tags for the artist listed and hyperlinked
+**Genre tags for the artist listed and hyperlinked**
 
 ![artist_tab_genre_tags.png](pictures_for_report/artist_tab/artist_tab_genre_tags.png)
 
-The raw entry of the artist document in the database
+**The raw entry of the artist document in the database**
 
 ![artist_tab_raw_entry.png](pictures_for_report/artist_tab/artist_tab_raw_entry.png)
 
-A list of similar artists, calculated by summed co-occurency of other artists among listeners of the tab's artist.
+**A list of similar artists, calculated by summed co-occurency of other artists among listeners of the tab's artist.**
 
 ![artist_tab_similar_artists.png](pictures_for_report/artist_tab/artist_tab_similar_artists.png)
 
@@ -100,7 +100,7 @@ A list of similar artists, calculated by summed co-occurency of other artists am
 
 [source of mongoDB query for element](#listener_col_queries)
 
-A list of the top listeners for the artist
+**A list of the top listeners for the artist**
 
 ![artist_tab_top_listeners.png](pictures_for_report/artist_tab/artist_tab_top_listeners.png)
 
@@ -114,9 +114,9 @@ A list of the top listeners for the artist
 
 **If a Genre is not specified through the address `/genre`:**
 
-Links to render genre dendrograms at four size thresholds (50, 100, 200, 500 genres).
+**Links to render genre dendrograms at four size thresholds (50, 100, 200, 500 genres).**
 
-Map visualization of the most popular genre (measured by summed unique listener count) by country of origin.
+**Map visualization of the most popular genre (measured by summed unique listener count) by country of origin.**
 
 ![genre_tab_genre_map.png](pictures_for_report/genre_tab/genre_tab_genre_map.png)
 
@@ -124,7 +124,7 @@ Map visualization of the most popular genre (measured by summed unique listener 
 
 [source of mongoDB query for element](#map_queries)
 
-Bar plot of the most popular genre (by unique listener count) by artist career start year.
+**Bar plot of the most popular genre (by unique listener count) by artist career start year.**
 
 ![genre_tab_genre_bar.png](pictures_for_report/genre_tab/genre_tab_genre_bar.png)
 
@@ -132,7 +132,7 @@ Bar plot of the most popular genre (by unique listener count) by artist career s
 
 [source of mongoDB query for element](#bar_plot_queries)
 
-Ranked list of the top 100 genres in the dataset by total unique listeners.
+**Ranked list of the top 100 genres in the dataset by total unique listeners.**
 
 ![genre_tab_genre_list.png](pictures_for_report/genre_tab/genre_tab_genre_list.png)
 
@@ -140,13 +140,13 @@ Ranked list of the top 100 genres in the dataset by total unique listeners.
 
 **If a Genre is specified through the address `/genre/metal`:**
 
-Genre rank (calculated by position in the dataset sorted by total unique listeners)
+**Genre rank (calculated by position in the dataset sorted by total unique listeners)**
 
 ![genre_tab_rank.png](pictures_for_report/genre_tab/genre_tab_rank.png)
 
 [source of mongoDB query for element](#genre_col_queries)
 
-Pie chart of the distribution of top artists within the genre by unique listener count.
+**Pie chart of the distribution of top artists within the genre by unique listener count.**
 
 ![genre_tab_artist_pie_chart.png](pictures_for_report/genre_tab/genre_tab_artist_pie_chart.png)
 
@@ -154,7 +154,7 @@ Pie chart of the distribution of top artists within the genre by unique listener
 
 [source of mongoDB query for element](#pie_chart_queries)
 
-Pie chart of the distribution of countries of origin for artists within the genre.
+**Pie chart of the distribution of countries of origin for artists within the genre.**
 
 ![genre_tab_country_pie_chart.png](pictures_for_report/genre_tab/genre_tab_country_pie_chart.png)
 
@@ -162,13 +162,13 @@ Pie chart of the distribution of countries of origin for artists within the genr
 
 [source of mongoDB query for element](#pie_chart_queries)
 
-A music player with a preview song drawn from a randomly selected artist within the genre (created using the iTunes API).
+**A music player with a preview song drawn from a randomly selected artist within the genre (created using the iTunes API).**
 
 ![genre_tab_preview_song.png](pictures_for_report/genre_tab/genre_tab_preview_song.png)
 
 [code to display element](#music_player)
 
-Map visualization of the top artist per country of origin filtered to the genre.
+**Map visualization of the top artist per country of origin filtered to the genre.**
 
 ![genre_tab_artist_map.png](pictures_for_report/genre_tab/genre_tab_artist_map.png)
 
@@ -176,13 +176,13 @@ Map visualization of the top artist per country of origin filtered to the genre.
 
 [source of mongoDB query for element](#map_queries)
 
-The raw entry of the genre document in the database.
+**The raw entry of the genre document in the database.**
 
 ![genre_tab_raw_entry.png](pictures_for_report/genre_tab/genre_tab_raw_entry.png)
 
 [source of mongoDB query for element](#genre_col_queries)
 
-Bar plot of the most popular artists within the genre by career start year.
+**Bar plot of the most popular artists within the genre by career start year.**
 
 ![genre_tab_artist_bar.png](pictures_for_report/genre_tab/genre_tab_artist_bar.png)
 
@@ -190,7 +190,7 @@ Bar plot of the most popular artists within the genre by career start year.
 
 [source of mongoDB query for element](#bar_plot_queries)
 
-A ranked list of the top 100 artists in the genre by unique listener count, with all relevant elements hyperlinked.
+**A ranked list of the top 100 artists in the genre by unique listener count, with all relevant elements hyperlinked.**
 
 ![genre_tab_top_artists.png](pictures_for_report/genre_tab/genre_tab_top_artists.png)
 
@@ -198,7 +198,7 @@ A ranked list of the top 100 artists in the genre by unique listener count, with
 
 [source of mongoDB query for element](#artist_col_queries)
 
-A ranked list of similar genres, calculated by summed co-occurrence of genre tags across artists shared within the genre.
+**A ranked list of similar genres, calculated by summed co-occurrence of genre tags across artists shared within the genre.**
 
 ![genre_tab_similar_genres.png](pictures_for_report/genre_tab/genre_tab_similar_genres.png)
 
@@ -208,7 +208,9 @@ A ranked list of similar genres, calculated by summed co-occurrence of genre tag
 
 **If a Genre is not specified and a dendrogram size is passed through the address `/genre/dendrogram/50`:**
 
-Dendrogram visualization of genre similarity for the top N genres in the dataset. Due to the computational cost of generating dendrograms, the result is drawn from a cache where available.
+**Dendrogram visualization of genre similarity for the top N genres in the dataset.** 
+
+Due to the computational cost of generating dendrograms, the result is drawn from a cache where available.
 
 ![genre_tab_dendrogram.png](pictures_for_report/genre_tab/genre_tab_dendrogram.png)
 
@@ -222,7 +224,7 @@ Dendrogram visualization of genre similarity for the top N genres in the dataset
 
 **If a Listener is not specified through the address `/listener`:**
 
-Ranked list of the top 100 listeners in the dataset sorted by total play count.
+**Ranked list of the top 100 listeners in the dataset sorted by total play count.**
 
 ![listener_tab_top_listeners.png](pictures_for_report/listener_tab/listener_tab_top_listeners.png)
 
@@ -232,13 +234,13 @@ Ranked list of the top 100 listeners in the dataset sorted by total play count.
 
 **If a Listener is specified through the address `/listener/someusername`:**
 
-Listener rank (calculated by position in the dataset sorted by total play count)
+**Listener rank (calculated by position in the dataset sorted by total play count)**
 
 ![listener_tab_rank.png](pictures_for_report/listener_tab/listener_tab_rank.png)
 
 [source of mongoDB query for element](#listener_col_queries)
 
-Pie chart of the distribution of the listener's top artists by listen count.
+**Pie chart of the distribution of the listener's top artists by listen count.**
 
 ![listener_tab_artist_pie_chart.png](pictures_for_report/listener_tab/listener_tab_artist_pie_chart.png)
 
@@ -246,7 +248,7 @@ Pie chart of the distribution of the listener's top artists by listen count.
 
 [source of mongoDB query for element](#pie_chart_queries)
 
-Total listen count for the listener, and a count and hyperlinked list of unique genres across all of the listener's top artists.
+**Total listen count for the listener, and a count and hyperlinked list of unique genres across all of the listener's top artists.**
 
 ![listener_tab_genre_tags.png](pictures_for_report/listener_tab/listener_tab_genre_tags.png)
 
@@ -254,13 +256,13 @@ Total listen count for the listener, and a count and hyperlinked list of unique 
 
 [source of mongoDB query for element](#artist_col_queries)
 
-The raw entry of the listener document in the database.
+**The raw entry of the listener document in the database.**
 
 ![listener_tab_raw_entry.png](pictures_for_report/listener_tab/listener_tab_raw_entry.png)
 
 [source of mongoDB query for element](#listener_col_queries)
 
-A table of the listener's top artists and their individual listen counts, with artist names hyperlinked to their artist tab pages.
+**A table of the listener's top artists and their individual listen counts, with artist names hyperlinked to their artist tab pages.**
 
 ![listener_tab_top_artists.png](pictures_for_report/listener_tab/listener_tab_top_artists.png)
 
@@ -271,8 +273,10 @@ A table of the listener's top artists and their individual listen counts, with a
 ## Notable Specific Elements:
 
 ### Drop Down Query Explanations:
-Location: [templates/query_detail_macro.html](#query_detail_macro)
-The green "MongoDB Query Used To Create Element" which appears under many visualizations and table is created using a jinja macro, with the argument (which is usually a pipeline) formatted using tojson:
+
+The green "MongoDB Query Used To Create Element" which appears under many visualizations and table is created using a jinja macro, with the argument (which is usually a pipeline) 
+
+formatted using tojson:
 
 ```html
 {% macro query_details(function_name, query_display_list) %}
@@ -289,9 +293,12 @@ The green "MongoDB Query Used To Create Element" which appears under many visual
 </div>
 {% endmacro %}
 ```
+Location: [templates/query_detail_macro.html](#query_detail_macro)
 
 The specific argument and function call to display is grabbed from a list of nested dicts "query_display_list"
+
 Location: [vis_utils/query_display_source.py](#query_display_source)
+
 ```python
 query_display_list = {
     # ~~~~ Simple field retrieval functions ~~~~
@@ -339,7 +346,7 @@ This is an inefficient method for accomplishing this task when it comes to manua
 ### Generating and Displaying Plots:
 Plots are displayed by first calling generic plotting functions from specialized page element functions, which return matplotlib figs, then converting them to base_64 images before passing them to the render template to be shown as images in the html code. For plots that are called often, the specialized page element functions check for locally generated cached versions stored in the static directory.
 
-1. Main app.py calls specialized plotting function:
+**1. Main app.py calls specialized plotting function:**
 ```python
 @app.route('/artist')
 def artist():
@@ -350,7 +357,7 @@ def artist():
 ```
 Location: [app.py](#app)
 
-3. Specialized function checks for cached plot (return that if available):
+**3. Specialized function checks for cached plot (return that if available):**
 ```python
 def plot_artists_origin_by_year(tag=None):
 
@@ -387,7 +394,7 @@ Cache code based off this tutorial:
 
 https://shawnway210.hashnode.dev/caching-in-python
 
-4. If cached plot not found, calls the generic plotting function to generate matplotlib fig
+**4. If cached plot not found, calls the generic plotting function to generate matplotlib fig**
 ```python
 ...
 fig, ax = plot_bar(
@@ -404,7 +411,7 @@ fig, ax = plot_bar(
 ```
 Location: [page_elements/bar_plot_queries.py](#bar_plot_queries)
 
-5. Call convert_matplot_fig_to_image to generate a base_64 image from the figure, save the file to the static directory if caching, return the result
+**5. Call convert_matplot_fig_to_image to generate a base_64 image from the figure, save the file to the static directory if caching, return the result**
 ```python
 ...
 artist_bar_plot_file = convert_matplot_fig_to_image(fig)
@@ -417,7 +424,7 @@ artist_bar_plot_file = convert_matplot_fig_to_image(fig)
 ```
 Location: [page_elements/bar_plot_queries.py](#bar_plot_queries)
 
-6. Display returned base64 image element in html for page
+**6. Display returned base64 image element in html for page**
 ```html
 <div class="box">
         <h2>Most Popular Artist by Career Start Year</h2>
