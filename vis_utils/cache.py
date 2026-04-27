@@ -11,7 +11,7 @@ CACHE_DIR = os.path.join(os.path.dirname(__file__), '..', 'static')
 
 def save_file_to_cache(cache_folder, cache_filename, file):
     cache_path = os.path.join(CACHE_DIR, cache_folder, f"{cache_filename}.b64")
-    os.makedirs(CACHE_DIR, exist_ok=True)  # creates the directory if it doesn't exist
+    os.makedirs(CACHE_DIR, exist_ok=True)
     with open(cache_path, "w") as f:
         f.write(file)
 

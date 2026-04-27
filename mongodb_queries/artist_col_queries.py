@@ -104,7 +104,7 @@ def get_top_artists(limit=100):
     artists = artists_col.aggregate(pipeline)
     return list(artists)
 
-# same as get_top_artists but no limit, honestly this function is kind of redundant and dumb
+# same as get_top_artists but no limit, honestly this function is kind of redundant
 def get_all_artists():
     pipeline = [
         {

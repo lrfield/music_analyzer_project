@@ -216,7 +216,11 @@ def genre_dendrogram(dendrogram_size):
     # NOTE: if functioning correctly plot_genre_dendrogram should be drawing from
     # a cached image. Plotting dendrograms takes a long time and consumes RAM
     # If there are 502 errors it is likely due to this page not working right.
-    genre_dendrogram = dendrogram.plot_genre_dendrogram(dendrogram_size)
+    if(dendrogram_size in [50,100,200,500]):
+        genre_dendrogram = dendrogram.plot_genre_dendrogram(dendrogram_size)
+    else:
+        genre_dendrogram = None
+    
     return render_template(
         'genre.html', 
         query_display_list = query_display_list,

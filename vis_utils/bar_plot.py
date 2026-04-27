@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 # code taken from https://towardsdatascience.com/7-steps-to-help-you-make-your-matplotlib-bar-charts-beautiful-f87419cb14cb/
+
 def plot_bar(data, x_axis_title, y_axis_title, bar_color,
              figsize, bar_height, sort=True, title = None, 
              bar_color_map = None, col_to_det_color = None):

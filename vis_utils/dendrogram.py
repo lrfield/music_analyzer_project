@@ -11,6 +11,7 @@ import matplotlib.pyplot as plt
 
 def plot_dendrogram(df):
 
+    # plot height has to be dependent on the number of elements or the text gets vertically crushed
     plot_height = int(len(df.columns)/5)
 
     figsize=(10, plot_height)

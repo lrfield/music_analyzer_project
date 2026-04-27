@@ -42,7 +42,7 @@ The listener, artist, and genre tabs follow an address-based navigation structur
 
 **If an Artist is not specified through the address `/artist`:**
 
-Map Visualization of the most popular artist (measured by unique listener count within sampled listeners) by country of origin.
+**Map Visualization of the most popular artist (measured by unique listener count within sampled listeners) by country of origin.**
 
 ![artist_tab_country.png](pictures_for_report/artist_tab/artist_tab_country.png)
 
@@ -50,7 +50,7 @@ Map Visualization of the most popular artist (measured by unique listener count 
 
 [source of mongoDB query for element](#map_queries)
 
-Bar plot of the most popular artist (by unique listener count) by artist career start year.
+**Bar plot of the most popular artist (by unique listener count) by artist career start year.**
 
 ![artist_tab_bar_plot.png](pictures_for_report/artist_tab/artist_tab_bar_plot.png)
 
@@ -62,37 +62,37 @@ Due to the fact that both of these plots are regularly queried, to improve respo
 
 **If an Artist is not specified through the address `/artist/Death`:**
 
-Artist rank (calculated by their position on the list of artists in the dataset sorted by total listener)
+**Artist rank (calculated by their position on the list of artists in the dataset sorted by total listener)**
 
 ![artist_tab_rank.png](pictures_for_report/artist_tab/artist_tab_rank.png)
 
 [source of mongoDB query for element](#artist_col_queries)
 
-Profile Image of the artist
+**Profile Image of the artist**
 
 ![artist_tab_image.png](pictures_for_report/artist_tab/artist_tab_image.png)
 
 [code to display element](#artist_picture)
 
-Pie chart visualization of distribution of user-voted genre tags from the MusicBrainz API.
+**Pie chart visualization of distribution of user-voted genre tags from the MusicBrainz API.**
 
 ![artist_tab_genre_dist.png](pictures_for_report/artist_tab/artist_tab_genre_dist.png)
 
-A music Player with a preview song for the artist (created using the Itunes API)
+**A music Player with a preview song for the artist (created using the Itunes API)**
 
 ![artist_tab_preview_song.png](pictures_for_report/artist_tab/artist_tab_preview_song.png)
 
 [code to display element](#music_player)
 
-Genre tags for the artist listed and hyperlinked
+**Genre tags for the artist listed and hyperlinked**
 
 ![artist_tab_genre_tags.png](pictures_for_report/artist_tab/artist_tab_genre_tags.png)
 
-The raw entry of the artist document in the database
+**The raw entry of the artist document in the database**
 
 ![artist_tab_raw_entry.png](pictures_for_report/artist_tab/artist_tab_raw_entry.png)
 
-A list of similar artists, calculated by summed co-occurency of other artists among listeners of the tab's artist.
+**A list of similar artists, calculated by summed co-occurency of other artists among listeners of the tab's artist.**
 
 ![artist_tab_similar_artists.png](pictures_for_report/artist_tab/artist_tab_similar_artists.png)
 
@@ -100,7 +100,7 @@ A list of similar artists, calculated by summed co-occurency of other artists am
 
 [source of mongoDB query for element](#listener_col_queries)
 
-A list of the top listeners for the artist
+**A list of the top listeners for the artist**
 
 ![artist_tab_top_listeners.png](pictures_for_report/artist_tab/artist_tab_top_listeners.png)
 
@@ -114,9 +114,9 @@ A list of the top listeners for the artist
 
 **If a Genre is not specified through the address `/genre`:**
 
-Links to render genre dendrograms at four size thresholds (50, 100, 200, 500 genres).
+**Links to render genre dendrograms at four size thresholds (50, 100, 200, 500 genres).**
 
-Map visualization of the most popular genre (measured by summed unique listener count) by country of origin.
+**Map visualization of the most popular genre (measured by summed unique listener count) by country of origin.**
 
 ![genre_tab_genre_map.png](pictures_for_report/genre_tab/genre_tab_genre_map.png)
 
@@ -124,7 +124,7 @@ Map visualization of the most popular genre (measured by summed unique listener 
 
 [source of mongoDB query for element](#map_queries)
 
-Bar plot of the most popular genre (by unique listener count) by artist career start year.
+**Bar plot of the most popular genre (by unique listener count) by artist career start year.**
 
 ![genre_tab_genre_bar.png](pictures_for_report/genre_tab/genre_tab_genre_bar.png)
 
@@ -132,7 +132,7 @@ Bar plot of the most popular genre (by unique listener count) by artist career s
 
 [source of mongoDB query for element](#bar_plot_queries)
 
-Ranked list of the top 100 genres in the dataset by total unique listeners.
+**Ranked list of the top 100 genres in the dataset by total unique listeners.**
 
 ![genre_tab_genre_list.png](pictures_for_report/genre_tab/genre_tab_genre_list.png)
 
@@ -140,13 +140,13 @@ Ranked list of the top 100 genres in the dataset by total unique listeners.
 
 **If a Genre is specified through the address `/genre/metal`:**
 
-Genre rank (calculated by position in the dataset sorted by total unique listeners)
+**Genre rank (calculated by position in the dataset sorted by total unique listeners)**
 
 ![genre_tab_rank.png](pictures_for_report/genre_tab/genre_tab_rank.png)
 
 [source of mongoDB query for element](#genre_col_queries)
 
-Pie chart of the distribution of top artists within the genre by unique listener count.
+**Pie chart of the distribution of top artists within the genre by unique listener count.**
 
 ![genre_tab_artist_pie_chart.png](pictures_for_report/genre_tab/genre_tab_artist_pie_chart.png)
 
@@ -154,7 +154,7 @@ Pie chart of the distribution of top artists within the genre by unique listener
 
 [source of mongoDB query for element](#pie_chart_queries)
 
-Pie chart of the distribution of countries of origin for artists within the genre.
+**Pie chart of the distribution of countries of origin for artists within the genre.**
 
 ![genre_tab_country_pie_chart.png](pictures_for_report/genre_tab/genre_tab_country_pie_chart.png)
 
@@ -162,13 +162,13 @@ Pie chart of the distribution of countries of origin for artists within the genr
 
 [source of mongoDB query for element](#pie_chart_queries)
 
-A music player with a preview song drawn from a randomly selected artist within the genre (created using the iTunes API).
+**A music player with a preview song drawn from a randomly selected artist within the genre (created using the iTunes API).**
 
 ![genre_tab_preview_song.png](pictures_for_report/genre_tab/genre_tab_preview_song.png)
 
 [code to display element](#music_player)
 
-Map visualization of the top artist per country of origin filtered to the genre.
+**Map visualization of the top artist per country of origin filtered to the genre.**
 
 ![genre_tab_artist_map.png](pictures_for_report/genre_tab/genre_tab_artist_map.png)
 
@@ -176,13 +176,13 @@ Map visualization of the top artist per country of origin filtered to the genre.
 
 [source of mongoDB query for element](#map_queries)
 
-The raw entry of the genre document in the database.
+**The raw entry of the genre document in the database.**
 
 ![genre_tab_raw_entry.png](pictures_for_report/genre_tab/genre_tab_raw_entry.png)
 
 [source of mongoDB query for element](#genre_col_queries)
 
-Bar plot of the most popular artists within the genre by career start year.
+**Bar plot of the most popular artists within the genre by career start year.**
 
 ![genre_tab_artist_bar.png](pictures_for_report/genre_tab/genre_tab_artist_bar.png)
 
@@ -190,7 +190,7 @@ Bar plot of the most popular artists within the genre by career start year.
 
 [source of mongoDB query for element](#bar_plot_queries)
 
-A ranked list of the top 100 artists in the genre by unique listener count, with all relevant elements hyperlinked.
+**A ranked list of the top 100 artists in the genre by unique listener count, with all relevant elements hyperlinked.**
 
 ![genre_tab_top_artists.png](pictures_for_report/genre_tab/genre_tab_top_artists.png)
 
@@ -198,7 +198,7 @@ A ranked list of the top 100 artists in the genre by unique listener count, with
 
 [source of mongoDB query for element](#artist_col_queries)
 
-A ranked list of similar genres, calculated by summed co-occurrence of genre tags across artists shared within the genre.
+**A ranked list of similar genres, calculated by summed co-occurrence of genre tags across artists shared within the genre.**
 
 ![genre_tab_similar_genres.png](pictures_for_report/genre_tab/genre_tab_similar_genres.png)
 
@@ -208,7 +208,9 @@ A ranked list of similar genres, calculated by summed co-occurrence of genre tag
 
 **If a Genre is not specified and a dendrogram size is passed through the address `/genre/dendrogram/50`:**
 
-Dendrogram visualization of genre similarity for the top N genres in the dataset. Due to the computational cost of generating dendrograms, the result is drawn from a cache where available.
+**Dendrogram visualization of genre similarity for the top N genres in the dataset.** 
+
+Due to the computational cost of generating dendrograms, the result is drawn from a cache where available.
 
 ![genre_tab_dendrogram.png](pictures_for_report/genre_tab/genre_tab_dendrogram.png)
 
@@ -222,7 +224,7 @@ Dendrogram visualization of genre similarity for the top N genres in the dataset
 
 **If a Listener is not specified through the address `/listener`:**
 
-Ranked list of the top 100 listeners in the dataset sorted by total play count.
+**Ranked list of the top 100 listeners in the dataset sorted by total play count.**
 
 ![listener_tab_top_listeners.png](pictures_for_report/listener_tab/listener_tab_top_listeners.png)
 
@@ -232,13 +234,13 @@ Ranked list of the top 100 listeners in the dataset sorted by total play count.
 
 **If a Listener is specified through the address `/listener/someusername`:**
 
-Listener rank (calculated by position in the dataset sorted by total play count)
+**Listener rank (calculated by position in the dataset sorted by total play count)**
 
 ![listener_tab_rank.png](pictures_for_report/listener_tab/listener_tab_rank.png)
 
 [source of mongoDB query for element](#listener_col_queries)
 
-Pie chart of the distribution of the listener's top artists by listen count.
+**Pie chart of the distribution of the listener's top artists by listen count.**
 
 ![listener_tab_artist_pie_chart.png](pictures_for_report/listener_tab/listener_tab_artist_pie_chart.png)
 
@@ -246,7 +248,7 @@ Pie chart of the distribution of the listener's top artists by listen count.
 
 [source of mongoDB query for element](#pie_chart_queries)
 
-Total listen count for the listener, and a count and hyperlinked list of unique genres across all of the listener's top artists.
+**Total listen count for the listener, and a count and hyperlinked list of unique genres across all of the listener's top artists.**
 
 ![listener_tab_genre_tags.png](pictures_for_report/listener_tab/listener_tab_genre_tags.png)
 
@@ -254,13 +256,13 @@ Total listen count for the listener, and a count and hyperlinked list of unique 
 
 [source of mongoDB query for element](#artist_col_queries)
 
-The raw entry of the listener document in the database.
+**The raw entry of the listener document in the database.**
 
 ![listener_tab_raw_entry.png](pictures_for_report/listener_tab/listener_tab_raw_entry.png)
 
 [source of mongoDB query for element](#listener_col_queries)
 
-A table of the listener's top artists and their individual listen counts, with artist names hyperlinked to their artist tab pages.
+**A table of the listener's top artists and their individual listen counts, with artist names hyperlinked to their artist tab pages.**
 
 ![listener_tab_top_artists.png](pictures_for_report/listener_tab/listener_tab_top_artists.png)
 
@@ -271,8 +273,10 @@ A table of the listener's top artists and their individual listen counts, with a
 ## Notable Specific Elements:
 
 ### Drop Down Query Explanations:
-Location: [templates/query_detail_macro.html](#query_detail_macro)
-The green "MongoDB Query Used To Create Element" which appears under many visualizations and table is created using a jinja macro, with the argument (which is usually a pipeline) formatted using tojson:
+
+The green "MongoDB Query Used To Create Element" which appears under many visualizations and table is created using a jinja macro, with the argument (which is usually a pipeline) 
+
+formatted using tojson:
 
 ```html
 {% macro query_details(function_name, query_display_list) %}
@@ -289,9 +293,12 @@ The green "MongoDB Query Used To Create Element" which appears under many visual
 </div>
 {% endmacro %}
 ```
+Location: [templates/query_detail_macro.html](#query_detail_macro)
 
 The specific argument and function call to display is grabbed from a list of nested dicts "query_display_list"
+
 Location: [vis_utils/query_display_source.py](#query_display_source)
+
 ```python
 query_display_list = {
     # ~~~~ Simple field retrieval functions ~~~~
@@ -339,7 +346,7 @@ This is an inefficient method for accomplishing this task when it comes to manua
 ### Generating and Displaying Plots:
 Plots are displayed by first calling generic plotting functions from specialized page element functions, which return matplotlib figs, then converting them to base_64 images before passing them to the render template to be shown as images in the html code. For plots that are called often, the specialized page element functions check for locally generated cached versions stored in the static directory.
 
-1. Main app.py calls specialized plotting function:
+**1. Main app.py calls specialized plotting function:**
 ```python
 @app.route('/artist')
 def artist():
@@ -350,7 +357,7 @@ def artist():
 ```
 Location: [app.py](#app)
 
-3. Specialized function checks for cached plot (return that if available):
+**3. Specialized function checks for cached plot (return that if available):**
 ```python
 def plot_artists_origin_by_year(tag=None):
 
@@ -387,7 +394,7 @@ Cache code based off this tutorial:
 
 https://shawnway210.hashnode.dev/caching-in-python
 
-4. If cached plot not found, calls the generic plotting function to generate matplotlib fig
+**4. If cached plot not found, calls the generic plotting function to generate matplotlib fig**
 ```python
 ...
 fig, ax = plot_bar(
@@ -404,7 +411,7 @@ fig, ax = plot_bar(
 ```
 Location: [page_elements/bar_plot_queries.py](#bar_plot_queries)
 
-5. Call convert_matplot_fig_to_image to generate a base_64 image from the figure, save the file to the static directory if caching, return the result
+**5. Call convert_matplot_fig_to_image to generate a base_64 image from the figure, save the file to the static directory if caching, return the result**
 ```python
 ...
 artist_bar_plot_file = convert_matplot_fig_to_image(fig)
@@ -417,7 +424,7 @@ artist_bar_plot_file = convert_matplot_fig_to_image(fig)
 ```
 Location: [page_elements/bar_plot_queries.py](#bar_plot_queries)
 
-6. Display returned base64 image element in html for page
+**6. Display returned base64 image element in html for page**
 ```html
 <div class="box">
         <h2>Most Popular Artist by Career Start Year</h2>
@@ -428,22 +435,6 @@ Location: [page_elements/bar_plot_queries.py](#bar_plot_queries)
 ```
 Location: [page_elements/bar_plot_queries.py](#bar_plot_queries)
 
-----
-
-### Dendrogram:
-
----
-
-### Similarity Algorithm:
-
----
-
-### Interaction With Other APIs:
-
-#### Music Player:
-
-#### Artist Picture:
-
 ---
 
 # Link to App
@@ -452,50 +443,18 @@ Location: [page_elements/bar_plot_queries.py](#bar_plot_queries)
 
 # Technical Development
 
-## Development Timeline:
-
 ## Database Interaction Structure
 
 ### Database Construction
-[Juypter Notebook of Database Construction](https://colab.research.google.com/drive/1JGf3bxf1H5BxDSd2jkWiI6QRQUkKvDmT)
+The code for the database construction is linked below, along with a description for each step. A more general overview is below.
 
-**API Interaction:**
+[Juypter Notebook for Database Construction](https://colab.research.google.com/drive/1JGf3bxf1H5BxDSd2jkWiI6QRQUkKvDmT)
 
-The process of acquiring a sample of music listeners and artists requires a roundabout way of querying the data from the API, since there is no direct way to search for users who consume a genre.
+#### Collection Structure:
 
-1. Query the MusicBrainz API to get a list of artists in the sample genre.
+![schema.png](pictures_for_report/other/schema.png)
 
-
-`INPUT: [GENRE NAME]`
-
-`OUTPUT:[LIST OF ARTISTS]`
-
-2. Query the ListenBrainz API to get a list of usernames that are the top listeners for the list of artists
-
-`INPUT: [LIST OF ARTISTS]`
-
-`OUTPUT: [LIST OF USERNAMES]`
-
-3. Use the ListenBrainz API to get each user's x top x artists
-
-`INPUT: [LIST OF USERNAMES]`
-
-`OUTPUT: [LIST OF X ARTISTS PER USERNAME]`
-
-4. Use the MusicBrainz API to populate genre tagging, country, and timeline information for each artist returned by the previous step.
-
-`INPUT: [ARTIST]`
-
-`OUPUT: [LIST OF [GENRE TAG, TAG COUNT], [COUNTRY], [BEGIN YEAR]`
-
-
-**NOTE: Why Not Build the Set of Artists from the Simple Genre Search, Instead of Sourcing Artists From User Statisics?**
-
-The purpose of populating the artist information this way is to get an interrelated collection of artists which can be compared by the sample of user's listening statistics. If I queried only artists, I would not have any useful information about consumption, and even if I individually populated a top user list for each artist, the listeners would be too disparate in consumption patterns to allow for similarity-based metrics.
-
-**Database Design:**
-
-The database consists of 3 collections:
+The database consists of 3 collections, structured to allow for the simplest possible queries when calculating both document specific and collection wide statistics:
 
 **Artists**
 - Document Entry Template:
@@ -519,6 +478,7 @@ The database consists of 3 collections:
   "unique_listeners": integer number of users in this dataset that have this artist in their top list
 }
 ```
+
 **listeners**
 - Document Entry Template:
 ```json
@@ -574,111 +534,518 @@ The database consists of 3 collections:
 }
 ```
 
-**Processing Artist Dict:**
+The Artist and Listener collections are formed almost entirely out of raw data returned from the MetaBrainz MusicBrainz and ListenBrainz APIs, while the Genre collection is formed entirely out of aggregated values from documents from the Artist and Listener collections. Technically, this means that the Genre collection is redundant, as you could retrieve all of its information from more complex queries to the Artist and Listener collections, but through constructing the genre collection, the preformance draw from frequently repeated queries can be offloaded to the infrequently preformed database updating process.
+
+
+#### API Interaction:
+
+1. Query the MusicBrainz API to get a list of artists in the sample genre.
+
+
+`INPUT: [GENRE NAME]`
+
+`OUTPUT:[LIST OF ARTISTS]`
+
+2. Query the ListenBrainz API to get a list of usernames that are the top listeners for the list of artists
+
+`INPUT: [LIST OF ARTISTS]`
+
+`OUTPUT: [LIST OF USERNAMES]`
+
+3. Use the ListenBrainz API to get each user's x top x artists
+
+`INPUT: [LIST OF USERNAMES]`
+
+`OUTPUT: [LIST OF X ARTISTS PER USERNAME]`
+
+4. Use the MusicBrainz API to populate genre tagging, country, and timeline information for each artist returned by the previous step.
+
+`INPUT: [ARTIST]`
+
+`OUPUT: [LIST OF [GENRE TAG, TAG COUNT], [COUNTRY], [BEGIN YEAR]`
+
+
+### Database Querying
+
+Database querying is done through Pymongo functions `find_one()`, `distinct()`, `count_documents()` `aggregate()`
+
+I designed the majority of the queries for the database to serve one of 3 main functions:
+
+1. Return a list of ranked data
+
+**Example:**
 
 ```python
-def construct_supplemental_info_artist_dict(mbid):
-    # Convert the MusicBrainz raw API dictionary into a dict that will be easier
-    # to use for importing into the database
-    # want a dict with country, area, begin_year, tags, tag_counts
+def get_top_artists(limit=100):
+    pipeline = [
+        {
+            "$sort": {
+                "unique_listeners": -1
+            }
+        },
+        {
+            "$limit": limit
+        },
+        {
+            "$project":{
+                "_id": 0,
+                "artist_name": "$name",
+                "country": 1,
+                "unique_listeners": 1,
+                "genre_tags": "$tag_counts"
+            }
+        }
+    ]
 
-    raw_artist_dict = get_artist_information(mbid)
-
-    country = raw_artist_dict.get("country", None)
-    # area field in MusicBrainz API is a dict with an id, name, and sort_name
-    # we just want the name so we have to use get twice
-    area = raw_artist_dict.get("area", {}).get("name",None)
-
-    # calculating begin field. MusicBrainz API returns a life_span object that contains
-    # the begin and end year, but we only want begin year (end year is often missing)
-    life_span = raw_artist_dict.get("life-span", {})
-    begin_year = None
-    if life_span.get("begin"):
-      # I had to add this try/except block because sometimes the entry for dates is
-      # "????"
-      try:
-          begin_year = int(life_span["begin"][:4])
-      except (ValueError, TypeError):
-          begin_year = None
-
-    all_tags = raw_artist_dict.get("tag-list", [])
-    for tag in all_tags:
-        # convert the count entry in the field from a string to int for vote filtering
-        tag["count"] = int(tag["count"])
-
-    # TAG FILTERING
-    # since tags work on a vote-based system, sometimes users place innacurate tags
-    # I am attempting to remove this by only keeping tags with a vote count over TAG_VOTE
-
-    filtered_tags = [tag for tag in all_tags if tag["count"] >= TAG_VOTE]
-    tags = [tag["name"] for tag in filtered_tags]
-
-    # reconstruct a list of tags along with their vote counts (but only for the tags with more than TAG_VOTE votes)
-    tag_counts = [{"tag": t["name"], "count": t["count"]} for t in filtered_tags]
-    return {
-        "country":    country,
-        "begin_year": begin_year,
-        "tag_counts": tag_counts
-    }
+    artists = artists_col.aggregate(pipeline)
+    return list(artists)
 ```
-### Database Querying
+
+2. Return a list of data binned into categories (year, country) that can be visualized through reusable generic plotting functions
+
+**Example:**
+```python
+filter_section = {
+        "country": {"$exists": True, "$ne": None}
+    }
+
+    if tag is not None:
+        filter_section["tag_counts.tag"] = tag
+    
+
+    pipeline = [
+        # Remove artists with no country from the pipeline
+        {
+            "$match": filter_section
+        },
+
+        # Sort artists by listener count descending
+        {
+            "$sort": {"unique_listeners": -1}
+        },
+
+        # Group artists by country, collapse by only including the first occurence in the listener count sorted list
+        {
+            "$group": {
+                "_id": "$country",
+                "name":{"$first":"$name"},
+                "unique_listeners":{"$first":"$unique_listeners"}
+            }
+        },
+
+        # sort the results alphabetically
+        {
+            "$sort": {"_id": 1}
+        },
+        # rename fields
+        {
+            "$project":{
+                "country": "$_id",
+                "artist_name":"$name",
+                "unique_listeners": 1
+            }
+        }
+    ]
+
+    top_artists_by_country = list(artists_col.aggregate(pipeline))
+```
+
+3. Return individual documents as list of dicts
+
+**Example:**
+```python
+# get a single artist doc based on name
+def get_artist(name):
+    doc = artists_col.find_one({"name": name})
+    return doc
+```
+
+Through a strategy of re-using a few patterns of aggregate pipelines, and just modifying arguments to fit a different field statistic or document type, I was able to create 22 aggregation based queries for the elements of the website.
+
+Further examinations of query structure are included below in the overview of the [mongodb_queries](#mongodb_queries) folder.
 
 # Website App Structure
 
 ## app
+Top level application that flask runs. Defines the route handles and passes the results of queries and visualization files as template variables to each pages jinja template.
+
+Snippet demonstrating functionality:
+```python
+app = Flask(__name__)
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Home tab ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+@app.route('/')
+def home():
+
+    # ARTIST COL QUERIES
+    # Data summary section
+    total_num_artists = artist_query.get_total_num_artists()
+    # List of artists section
+    top_artists = artist_query.get_top_artists()
+
+    # GENRE COL QUERIES
+    # Data summary section
+    total_num_genres = genre_query.get_total_num_genres()
+    # Colors for tag hyperlinks in list of artists section
+    tag_colors = genre_query.get_color_for_tags()
+
+    # LISTENER COL QUERIES
+    # Data summary section
+    total_num_listeners = listener_query.get_total_num_listeners()
+
+    # 
+    # Data summary section
+    percent_metal = round((artist_query.get_num_artists_in_genre("metal") / total_num_genres) * 100, 2)
+    
+    return render_template('index.html', 
+                           query_display_list = query_display_list,
+                           top_artists=top_artists, 
+                           tag_colors = tag_colors,
+                           total_num_artists = total_num_artists,
+                           total_num_genres = total_num_genres,
+                           total_num_listeners = total_num_listeners,
+                           percent_metal = percent_metal
+                           )
+```
 
 ## page_elements
+Modules that contain the MongoDB queries and visualization function calls for each of the specialized visualization functions that are called by app.py
 
 ### dendrogram_queries
 
+Contains one function: `plot_genre_dendrogram`
+
+`plot_genre_dendrogram` is the query and query result processing code for building a co-occurence matrix for genre tags based on their appearance in the tag_counts field of the artist collection. Generic `plot_dendrogram` function from `vis_utils/dendogram.py` is then called, the fig produced by it is converted to an image using `convert_matplot_fig_to_image` from `vis_utils/image_conversion` and then returned. Called in `app.py` by `genre_dendrogram`, resultant image appears in the `genre/dendrogram` tab.
+
+**Caching:** Before plotting, the function checks for the specified size of dendrogram saved in the `static/dendrogram_cache` folder using `read_file_to_cache` from `vis_utils/cache`. If not, `save_file_to_cache` is used to save the image to the folder. Actually generating the dendrograms should only be done locally before deploying on the render instance, since it is very resource intensive. This is why there is a limited number of dendrogram sizes available to plot.
+
 ### bar_plot_queries
+
+Contains two functions: `plot_artists_origin_by_year` and `plot_genre_by_year`
+
+Both of these functions contain the query and query result processing code to build list of the top artists/genres (measured by unique_listeners) by career start year. '
+
+**Note:**
+There is a flaw in the data here, as the MusicBrainz system ascribes "start date" for bands to the year the band began producing music, but for individual artists, the year they were born. The bar plots produced by these functions are demonstrations of analysis that could be done with better organized labeling, but as it stands they are not very accurate to yearly trends. 
+
+The functions first use aggregation pipelines to produce their lists in the format `[begin_year,  artist_name, unique_listeners, main_genre]` and `[begin_year, genre_name, unique_listeners` for the artist and genre function respectively. They then call the generic bar plot function `plot_bar` from `vis_utils/bar_plot` and convert the returned fig to an image using `convert_matplot_fig_to_image` from `vis_utils/image_conversion`
+
+`plot_artists_origin_by_year` is called in `app.py` by `artist` (for all artists popularity by career start year) and `genre_detail`  (for artists popularity by career start year limited to the given genre). Resultant images appear in the generic artist tab and the specific genre tab.
+
+`plot_genre_by_year` is called in `app.py` by `genre`. The resultant image appears in the generic genre tab.
+
+**List Return and Caching:** 
+
+The bar plot functions also return the list created by the queries used to create the plots, this is for use in the "View the Data Visualized in this Plot" dropdown in their respective tabs (created by the `vis_output_details` macro in `templates/query_detail_macro`)
+
+Both the returned image and list are cached using `save_file_to_cache` and `save_json_to_cache` from `vis_utils/cache` and checked before calculating using `read_file_from_cache` and `read_file_from_cache`. 
+
+The `plot_artists_origin_by_year` has a check to see if its the generic call or a tag-specific before preforming cache operations, since it only makes sense to cache in the often-repeated no-tag-specified case.
+
+Cached items are stored in `static/bar_plot_cache`
 
 ### map_queries
 
+Contains three fucntions: `return_country_name`, `plot_artist_origin_by_country` and `plot_genre_origin_by_country`
+
+`return_country_name` is a helper function to return a string name for a country based on its ISO code. This is done for better readability in the returned list (code taken from https://pypi.org/project/pycountry/)
+
+`plot_artist_origin_by_country` and `plot_genre_origin_by_country` follow the same pattern as the bar plot query functions above:
+
+- Query/processing code to make a list of top artists by their country of origin (calculated by unique_listener_count)
+- First check cache for cached image and list using `read_file_from_cache`, `read_file_from_cache`, `save_file_to_cache`, `save_json_to_cache` from `vis_utils/cache.py`  
+- Call generic map plotting function `plot_world_map` from `vis_utils/country_mapping.py` to create fig, then convert fig to image using `convert_matplot_fig_to_image` from `vis_utils/image_conversion`
+- Return image.
+- Also return list for "View the Data Visualized in this Plot" dropdown (created by the `vis_output_details` macro in `templates/query_detail_macro`)
+- plot_artist_origin_by_country only caches if genre tag is not specified
+- cached results stored in `static/map_cache`
+
+`plot_artist_origin_by_country` is called in `app.py` by `artist` (for top artist by country of origin out of any genre) and `genre_detail`  (for top artist by country of origin out of given genre). Resultant images appear in the generic artist tab and the specific genre tab.
+
+`plot_genre_origin_by_country` is called in `app.py` by `genre`. The resultant image appears in the generic genre tab.
+
 ### pie_chart_queries
 
-## templates
+Contains four functions: `artist_genre_tag_pie_chart`, `genre_country_pie_chart`, `genre_artist_pie_chart`, and `listener_artist_pie_chart`
 
-### index
+Each function queries a list field (that has already been aggregated, no pipeline-.aggregate() necessary, its done in the database construction stage) from a single document in its respective collection, then passes the result to `plot_pie_chart` from `vis_utils/pie_chart`. The returned fig is converted to an image using `convert_matplot_fig_to_image` from `vis_utils/image_conversion`. 
+
+No caching is done and no data list is returned.
+
+`artist_genre_tag_pie_chart(name)` pulls `tag_counts` from `artists_col` to plot genre tag vote distribution for an artist. Called by `artist_detail` in `app.py`, appearing in the specific artist tab.
+
+`genre_country_pie_chart(name)` pulls `top_countries` from `genres_col` to plot listener distribution by country for a genre. Called by `genre_detail`, appearing in the specific genre tab.
+
+`genre_artist_pie_chart(name)` pulls `top_artists` from `genres_col` to plot the top artists within a genre by listener count. Also called by `genre_detail`, appearing in the specific genre tab.
+
+`listener_artist_pie_chart(name)` pulls `listening_activity` from `listeners_col` to plot a listener's top artists by play count. Called by `listener_detail`, appearing in the specific listener tab.
+
+## static
+
+### player
+
+Contains one javascript function `fetchMusic`
+
+Creates the music player element in the `artist/artist_name` and `genre/genre_name` pages by interacting with the itunes API
+
+Based on tutorial: https://www.codewithfaraz.com/content/459/create-a-music-search-app-using-html-css-and-javascript
 
 ### report
 
+Contains the markdown report displayed on the `report` page
+
+### styles.css
+
+Contains minimal style modifications to apply to the base `tinybrutalism.css` 
+
+- inverts the entire page
+- re-inverts the music player element
+- Applies a CRT filter based off of this tutorial: https://aleclownes.com/2017/02/01/crt-display.html to add horizontal semi-transparent bars and a text bloom effect
+- Applies color and sizing styling to the navigation buttons
+
+## templates
+
+HTML Jinja templates that are rendered by Flask. Seperated by the tab pages as well as macro elements shared between pages.
+
+### index
+
+Main landing page
+- Displays intro text
+- Describes summary statistics
+- Top 100 artist table
+- If /all_artists route specified by address, only displays full list of all artists.
+
+### report
+
+- Renders a markdown report file (report.md in /static) using zero-md.
+
 ### genre
+
+- Handles three render states based on route specified by address
+
+**Genre overview page: (no address specification)**
+	- Genre origin map
+	- Bar plot of genre popularity by artist origin year
+	- Top-100 genre table
+
+**Specific Genre Page: (genre/artist)**
+	- Rendered if `genre_name` and `genre_doc` arguments are not None.
+	- Pie chart describing artist distribution (grabbed from pre-computed top 10 artists in genre collection)
+	- Pie chart describing country of origin distribution (grabbed from pre-computed top 10 countries in genre collection)
+	- Music preview of a random artist that has that genre tag in their tag_counts list
+	- Map plot of the top artists within that genre by their country of origin
+	- Raw genre document entry
+	- Top artists within that genre
+	- Similar genres (calculated by co-occurency within artist docs) to that genre
+
+ **Genre Not Found (genre/artist)**
+	- Rendered if `genre_name` is not None but `genre_doc` is None.
+	- Displays error message
+
+**Dendrogram (genre/dendrogram/dendrogram_size)**
+	- Rendered if `dendrogram_size` is not none
+	- Displays the dendrogram of the top (dendrogram_size) genres in the dataset
 
 ### listener
 
+- Handles two render states based on route specified by address
+
+**Listener overview page: (no address specification)**
+	- Top listeners table ranked by total listen history
+
+**Specific Listener Page: (listener/listener_name)**
+	- Rendered if listener_name and listener_doc arguments are not None.
+	- Listener name and rank header
+	- Pie chart describing artist distribution (grabbed from pre-computed top artists in listener document)
+	- Statistics panel: total listen count, number of unique genres, genre tags (hyperlinked to genre pages)
+	- Raw listener document entry
+	- Top artists table with per-artist listen counts
+
+**Listener Not Found (listener/listener_name)**
+	- Rendered if listener_name is not None but listener_doc is None.
+	- Displays error message
+
 ### artist
+- Handles three render states based on route specified by address
+
+**Artist overview page: (no address specification)**
+	- Map plot of the top artist by country of origin
+	- Bar plot of most popular artist by career start year
+
+**Specific Artist Page: (artist/artist_name)**
+	- Rendered if `artist_doc` is not None.
+	- Artist name and rank header
+	- Artist image (rendered with CSS invert filter)
+	- Pie chart describing genre distribution (grabbed from pre-computed tag_counts in artist document)
+	- Music preview via iTunes API for the specified artist
+	- Genre tags (hyperlinked to genre pages)
+	- Raw artist document entry
+	- Similar artists (calculated by co-occurence within artist docs)
+	- Top listeners of that artist with per-listener listen counts
+
+**Artist Not Found (artist/artist_name)**
+	- Rendered if `artist_name` is not None but `artist_doc` is None.
+	- Displays error message
 
 ### search_macro
 
+- Jinja macro that renders a text input box
+- Redirects website to `/<element>/<value>` when user presses Enter
+- argument `searched_element` controls how the route is built (searched_element = genre creates a redirect link that begins with ''/genre/')
+- argument `conditional_doc` controls text in the heading ("search specific" or "search different")
+
 ### navigation_macro
+
+- Jinja macro that renders the navigation bar at the top of the page
+- argument `current_tab` applies an `active` CSS styling class the the button the page is on
 
 ### list_table_macro
 
+- Generic table renderer for visualizing lists of information returned by the mongoDB queries
+- Argument `list` contains the list of dicts to be tabulated
+- Argument `column` is an list of the key names, in order of how they should be displayed. This MUST match the key names in `list`
+- Argument `tag_colors` dict maps genre tag hyperlinks to their corresponding colors
+- Argument `Rank` is a boolean flag to determine if the right hand side of the table has a descending count
+- Macro automatically constructs the hyperlinks for `artist_name`, `listener_name` and `genre_name/main_genre/genre_tags` columns, but both the `list` and `column` keys MUST have those names.
+
 ### query_detail_macro
+
+- Contains 2 Jinja macros for rendering collapsible elements
+- `query_details` creates the collapsible "MongoDB Query Used To Create Element"
+	- Argument `query_display_list` informs the dict to draw Pymongo methods and arguments from based on a function name
+	- `function_name` is the function name used to create the element
+- `vis_output_details` renders a collapsible "View the Data Visualized in this Plot"
+	- Just calls the `list_table` macro inside of a drop down menu
+	- Argument output `output_list` is the list of dicts to display in the drop down, `output_columns` are the ordered columns from the list to display, `tag_colors` are the genre tag colors for styling hyperlinks, `rank` determines if a rank column is added to the left hand side
 
 ## vis_utils
 
 ### bar_plot
 
+Contains function `plot_bar`
+
+Called by `page_elements/bar_plot_queries.py`
+
+`plot_bar` creates a bar plot from a list of dicts `data`, specifically for use in plotting a sorted list of artist or genre dicts from aggregation functions.
+
+Code based off of this tutorial:
+
+https://towardsdatascience.com/7-steps-to-help-you-make-your-matplotlib-bar-charts-beautiful-f87419cb14cb/
+
+
 ### country_mapping
+
+Contains functions `_get_world`, `country_text_sizer` and `plot_world_map`
+
+`_get_world`: shapefile cache retrival function
+
+`country_text_sizer`: helper function, returns a text size based on wether a countries ISO code places it in th elarge, medium, small or tiny category. This allows for a plot with text large enough to read without text overlapping around smaller countries.
+
+`plot_world_map`
+
+Called by `page_elements/map_queries.py`
+
+- Converts the input list to a dataframe
+- inner joins it with the world dataframe retrieved by `_get_world`
+- Applies a colormap and normalizes it to the range of values presented by the list in `color_value`
+- computes centroids for the countries labels
+- uses an adjustments dict to account for errors in the world dataframe's centroid labeling
+- plots annotations on top of each country that consist of the ISO code and the string in `value_col`
+
+Code based off of this tutorial:
+
+https://python-graph-gallery.com/web-map-europe-with-color-by-country/
 
 ### dendrogram
 
+Contains function `plot_dendrogram`
+
+- Uses `scipy` library for plotting and preprocessing matrix
+- Accepts argument dataframe `df`(this should be a co-occurence matrix)
+- Preprocesses the co-occurence matrix into a symmetric distance matrix
+- symmetric distance matrix converted into a condensed distance vector containing only the upper triangle through `squareform`
+- Hierarchical clustering preformed by `linkage` using the `ward` method
+	- I chose `ward` because of its tendency to make tighter clusters of data. It does this because of the minimization of within cluster variance, `complete` also works fairly well, but just for this case, I found the ward dendrograms produced more intuitive groupings.
+- uses scipy `dendrogram` to plot the clusters `Z` produced by `linkage`
+- depth of visual categories determined by `color_threshold` (currently 0.3 * highest branch depth) (modify this to seperate groups by color earlier or later down the graph)
+
+Code based off of these tutorials:
+
+https://stackoverflow.com/questions/41416498/dendrogram-or-other-plot-from-distance-matrix
+
+https://www.learndatasci.com/glossary/hierarchical-clustering/
+
+https://jocelyn-ong.github.io/hierarchical-clustering-in-SciPy/
+
 ### pie_chart
+
+Contains functions `autopct_filter` and `plot_pie_chart`
+
+`autopct_filter` is a simple helper function for use in displaying a percentage overlaid on a pie chart slice only above a certain threshold, so as to not crowd the graph in the case of many small slices.
+
+`plot_pie_chart` is a generic matplot pie chart plotting function. Takes arguments `values, labels, title, figsize`. Wedges have a percentage overlaid on their face, and the label for their value extending outward at the same angle of the wedge.
+
+Based off of this tutorial: [https://www.pythoncharts.com/matplotlib/pie-chart-matplotlib/](https://www.pythoncharts.com/matplotlib/pie-chart-matplotlib/)
 
 ### image_conversion
 
+Contains function `convert_matplot_fig_to_image`
+
+Takes argument: `fig`
+
+Converts a matplot fig to a base64 image so that it can be rendered in the html pages. 
+
+Called by code in the `page_elements` directory
+
+Code based off of this tutorial: [https://matplotlib.org/3.1.1/faq/howto_faq.html#how-to-use-matplotlib-in-a-web-application-server](https://matplotlib.org/3.1.1/faq/howto_faq.html#how-to-use-matplotlib-in-a-web-application-server)
+
 ### cache
+
+Contains functions: `save_file_to_cache`, `read_file_from_cache`, `save_json_to_cache`, `read_json_from_cache`
+
+save functions take arguments: `cache_folder, cache_filename, data`
+
+read functions take arguments: `cache_folder, cache_filename`
+
+These functions are called by code in the `page_elements` directory to save locally generated lists and plots to the `static/` directory of the site before deploying to render. This is done to reduce RAM usage. 
+
+Code for functions is based off of this tutorial: [https://shawnway210.hashnode.dev/caching-in-python](https://shawnway210.hashnode.dev/caching-in-python)
 
 ### artist_image
 
+Contains one function: `get_artist_image`
+- Accepts argument artist_name
+- Uses deezer API search to return a 'size xl'
+- uses requests.get() to get the entire searched artist object before extracting the image, not sure if this could be done more efficiently
+- function pattern based off of this [tutorial](https://dev.to/hmlon/getting-your-latest-releases-from-deezer-withpython-ljc)
+
 ### query_display_source
 
+Contains dict: `query_display_list`
+
+This list is used as an argument for calls of the `query_details` macro in `query_detail_macro.html`
+
+Dict format:
+
+```python
+"function_name": {
+    "mongo_arg": <argument(s)>,
+    "mongo_function": "<db.collection.method()>"
+}
+```
+
+- `function_name`: function call that contains the query
+- `mongo_arg`: argument passed to the PyMongo method in the function call
+- `mongo_function`: the PyMongo method in the function call
+
+This dict must be manually updated as new functions are made or existing ones are modified. This dict is not used for anything else, changing the values in the list will not affect functionality of the listed functions.
+
 ## mongodb_queries
+
 This directory contains the mongoDB queries used for everything other than plotting code, whose queries are seperated into their own section. There are many query functions, but almost all of them are modifications on the same 5 patterns:
 
 #### get single document element
+
 Return a single field or document from a document entry based on a argument query filter.
 
 ```python
@@ -697,6 +1064,7 @@ def get_field_from_doc(filter):
 ```
 
 #### count documents
+
 Return the number of documents in a collection, or number of documents in a collection that match a filter.
 
 ```python
@@ -705,6 +1073,7 @@ def count_documents(filter):
 ```
 
 #### get rank
+
 Return the rank of a document within a collection when compared against the rest of the collection sorted by a field.
 
 *Source referenced to develop pattern:*
@@ -729,6 +1098,7 @@ def get_rank(filter):
 ```
 
 #### Sorted List Aggregation
+
 Return a list of documents sorted by a given field. Pattern follows a structure of first filtering by a match condition, then sorting by the field, bounding by a limit, and then projecting the fields into useful output names to use as a list of dicts.
 
 *Sources referenced to develop pattern:*
@@ -769,6 +1139,7 @@ def get_top_element(limit):
 ```
 
 #### Grouping Aggregation
+
 Unwind one of the nested array fields of the specified document, then group by a target subfield and calculate an accumulated aggregate value from the unwound document objects. Then sort by a field, limit the results, and project the fields into useful output names.
 
 *Sources referenced to develop pattern:*
@@ -835,9 +1206,11 @@ def get_similar_artists_simple(artist_name, limit = 10):
 ```
 
 ### db_constants
+
 This module contains the mongoDB connection constants used to address the database and connections with pymongo functions.
 
 ### artist_col_queries
+
 This module contains all of the queries that access the artist collection in the databse.
 
 | Function | Description | Arguments | Document Fields Used | Returns | Query Pattern |
@@ -885,9 +1258,36 @@ This module contains all of the queries that access the genre collection in the 
 
 ### What Did I Learn:
 
+This project introduced me to a lot of new programming techniques and solidified what I had learned in this course about non-relational databse querying and design. I found that aggregation pipeline based queries were a lot more powerful than I initially thought. In trying to extract more interesting information and visualizations, I had to learn how to leverage keywords like $group, $unwind, and $first. Although I initially found these longer queries intimidating, I found that they all follow similar patterns no matter the information being extracted, and the json style formatting of pipeline provides a much clearer image of what is happening than SQL queries (in my opinion).
+
+I also had to learn a lot of web design techniques for this project. I had only previously made basic html sites, but I wanted to run python code on this website, so I needed to learn flask. I found the render template structure of flask a very intuitive workflow for bridging the two languages. Jinja2 functions addressed a lot of the frustrations I had previously had with the limitations of html programming, most significantly the ability to build macros to avoid repeating code blocks, and adding conditional elements without the use of javascript.
+
 ### Challenges Faced:
 
+**Developing Locally vs Deploying on Render:**
+
+A lot of issues with this project stemmed from building working versions locally, and finding errors when deploying the Flask site on Render. Most of these stemmed from a lack of consideration for resource usage. Elements like the dendrograms built and stored large lists of dicts in memory, which quickly overshot the allotted RAM for the instance, and would crash the site with a "502" error. Other bugs like not closing matplot figs after creating plots produced the same crashes, while being hard to identify, since my machine had enough resources to continue running the site. 
+
+**Refactoring and Keeping things Organized:**
+
+I have completely re-organized the code for the web app several times. My intention of extending repeatable patterns to acheive a wide range of features without needing a massive codebase led me to write a large amount of redundant code in the early stages. Then, while attempting to simplify functionality by working html elements into macros, or repeated python code into generic functions, I would introduce new dependencies and constraints that would cause very confusing behavior and errors. 
+
+One of the most irrating one of these was building the list macro. In an attempt to simplify and create more readable code, I had the column names and ordering stem from the dict keys returned by the MongoDB queries, and the hyperlinking functionality base of of the keys as well. However, this required strict naming conventions in the lists returned from the MongoDB queries, which in turn meant adding a project stage to nearly every one of the pipelines in the project, which was very tedious. Also, if you want to alias the column names in the displayed table to something more readable, you have to match it for every stage from query->macro_call->list macro hyperlink conditions. If I worked on this project longer I would change this.
+
+**Finding Documentation and Tutorials:**
+
+Despite many of the elements in this project being widely used website, API, and database features, I found it extremely difficult to find tutorial resources for drawing code blocks from. For the MetaBrainz APIs especially, the majority of searches returned basic documentation that only outlined the return fields of the API, not the code needed to query it. This was especially needed since both the ListenBrainz and MusicBrainz had idiosyncratic interaction requirements that I would have no way of knowing if I did not eventually find examples in their user manuals and other people's github projects. Many of the visualization functions such as the maps and dendrograms required mashing several tutorial code blocks together to solve outdated dependencies and outright errors.
+
 ### What Would I Add if Provided More Time:
+
+**Better Similarity Algorithm:**
+If Provided with more time, I would like to add a more sophisticated similarity algorithm. After designing the basic co-occurence based algorithm, I found that it was not feasible to preform any of the operations through intermediate conversions to python lists in order to simplify the mathematics code. All of the comparisons need to be done through the query pipeline, otherwise it uses too much memory on the render instance. This means that preforming the union comparisons necessary for Jaccard similarity (which is the simplest step up in complexity for similarity algorithms) would need to take place entirely in the query pipeline, which is outside my personal scope for the time given.
+
+**Improved Sample:**
+I would like to improve the sampling integrity, either through a different strategy of data collection or by interacting with an API. Currently the dataset is not actually "representative" of a population in any meaningful way, so extending predictions about music consumption to a generalized population is not possible. Also,  a higher quantity of listeners in general would be helpful for the accuracy of the datasets tagging and similarity observations.
+
+**Simplifying Querying Pipeline:**
+I chose to use pymongo inside of a flask container as I am not at all familiar with programming with javascript. This has introduced many complexities in the pipeline from query-page element that create a more unstable application. Using Node.js driver would likely simplify this and solve many of the issues inherent to my design strategy.
 
 ## Works Cited:
 
@@ -937,7 +1337,7 @@ https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-ii-templates
 
 * * *
 
-### Python Plotting
+### Python Plotting / Visualization Elements
 
 Towards Data Science. "7 Steps to Help You Make Your Matplotlib Bar Charts Beautiful." *Towards Data Science*.  
 https://towardsdatascience.com/7-steps-to-help-you-make-your-matplotlib-bar-charts-beautiful-f87419cb14cb/
@@ -948,7 +1348,16 @@ https://www.pythoncharts.com/matplotlib/pie-chart-matplotlib/
 CopyProgramming. "Generating a Random Hex Color in Python." *CopyProgramming*.  
 https://copyprogramming.com/howto/generating-a-random-hex-color-in-python-2
 
-Shawn. "Caching in Python." Shawn's Blog, Hashnode, 20 Oct. 2023, shawnway210.hashnode.dev/caching-in-python.
+Shawn. "Caching in Python." Shawn's Blog, Hashnode, 20 Oct. 2023, [shawnway210.hashnode.dev/caching-in-python](shawnway210.hashnode.dev/caching-in-python).
+
+Kholin, Nikita. "Getting Your Latest Releases from Deezer with Python." DEV Community, 13 Dec. 2018, [dev.to/hmlon/getting-your-latest-releases-from-deezer-withpython-ljc](dev.to/hmlon/getting-your-latest-releases-from-deezer-withpython-ljc).
+
+Karabiber, Fatih. "Hierarchical Clustering." LearnDataSci, www.learndatasci.com/glossary/hierarchical-clustering/. Accessed 27 Apr. 2026.
+
+Ong, Jocelyn. "Hierarchical Clustering in SciPy." Hello, World, 3 Nov. 2016, [jocelyn-ong.github.io/hierarchical-clustering-in-SciPy/](jocelyn-ong.github.io/hierarchical-clustering-in-SciPy/).
+
+Warren Weckesser. "Dendrogram or Other Plot from Distance Matrix." Stack Overflow, 1 Jan. 2017, [stackoverflow.com/questions/41416498/dendrogram-or-other-plot-from-distance-matrix](stackoverflow.com/questions/41416498/dendrogram-or-other-plot-from-distance-matrix).
+
 
 * * *
 
@@ -975,5 +1384,3 @@ https://github.com/foscraft/music-brainz-api/blob/master/musicbrainz_api_func.py
 ### Usage of AI
 
 Anthropic Claude used to debug errors related to deploying website on render
-
-Reflections - what did you learn, what was the most challenging/interesting part of this project? What would you change in your current application if you had more time?

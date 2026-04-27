@@ -147,6 +147,8 @@
       {% endif %}
       {% elif dendrogram_size %}
       <!-- IF AN GENRE HAS NOT BEEN SPECIFIED THRU THE ADDRESS AND DENDOGRAM IS BEING PLOTTED -->
+      <!-- only plot dendrograms that have been locally generated -->
+      {% if dendrogram_size in [50, 100, 200, 500] %}
       <div class="box">
         <h2>Dendrogram of top {{dendrogram_size}} Genres in Dataset:</h2>
         <div class="box">
@@ -157,6 +159,13 @@
         <!--Drop-down Query Explanation-->
         {{ query_details("plot_dendrogram", query_display_list) }}
       </div>
+      {% else %}
+      <!--Error message if non-cached dendrogram size is put into url-->
+      <div class="box">
+        <h2>Sorry, pre-computed dendrogram of that size is not available</h2>
+        <h2>¯\_(ツ)_/¯</h2>
+      </div>
+      {% endif %}
 
       {%else%}
       <!-- IF AN GENRE HAS NOT BEEN SPECIFIED THRU THE ADDRESS AND DENDOGRAM IS NOT BEING PLOTTED -->
