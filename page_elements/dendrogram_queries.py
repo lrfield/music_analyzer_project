@@ -4,7 +4,7 @@ from vis_utils.cache import save_file_to_cache, read_file_from_cache, save_json_
 from mongodb_queries.db_constants import db, artists_col, genres_col, listeners_col
 from mongodb_queries.genre_col_queries import get_genres
 import pandas as pd
-import matplotlib as plt
+import matplotlib.pyplot as plt
 
 
 def plot_genre_dendrogram(limit=100):

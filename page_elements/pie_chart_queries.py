@@ -1,7 +1,7 @@
 from vis_utils.pie_chart import plot_pie_chart
 from vis_utils.image_conversion import convert_matplot_fig_to_image
 from mongodb_queries.db_constants import db, artists_col, genres_col, listeners_col
-import matplotlib as plt
+import matplotlib.pyplot as plt
 
 # Pie chart of voted genre tag distribution for a given artist
 def artist_genre_tag_pie_chart(name):
