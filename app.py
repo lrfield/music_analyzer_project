@@ -1,5 +1,5 @@
-from dotenv import load_dotenv
-load_dotenv()
+# from dotenv import load_dotenv
+# load_dotenv()
 
 import os
 print(f"[DEBUG] MONGO_URI loaded: {os.environ.get('MONGO_URI')}")
@@ -73,6 +73,7 @@ def all_artists():
     # GENRE COL QUERIES
     # Colors for tag hyperlinks in list of artists section
     tag_colors = genre_query.get_color_for_tags()
+    gc.collect()
     return render_template('index.html', 
                            query_display_list = query_display_list,
                            all_artists=all_artists, 
