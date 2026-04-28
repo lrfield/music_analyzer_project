@@ -1,6 +1,10 @@
 import os
 import pymongo
-MONGO_URI = os.environ.get("MONGO_URI", "mongodb+srv://fieldl_db_user:JcktLsFY2DeFl9za@maincluster.gy24md4.mongodb.net/")
+MONGO_URI = os.environ.get("MONGO_URI")
+if not MONGO_URI:
+    raise RuntimeError("MONGO_URI environment variable is not set")
+
+
 DB_NAME   = "music_data"
 
 client = pymongo.MongoClient(MONGO_URI)
