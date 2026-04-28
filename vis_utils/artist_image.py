@@ -1,6 +1,8 @@
 import requests
 
+# code constructed using these resources
 # https://developers.deezer.com/api/search/artist
+# https://dev.to/hmlon/getting-your-latest-releases-from-deezer-withpython-ljc
 
 def get_artist_image(artist_name):
     url = "https://api.deezer.com/search/artist"

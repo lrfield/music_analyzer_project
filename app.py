@@ -1,3 +1,9 @@
+from dotenv import load_dotenv
+load_dotenv()
+
+import os
+print(f"[DEBUG] MONGO_URI loaded: {os.environ.get('MONGO_URI')}")
+
 from flask import Flask, render_template
 import matplotlib; matplotlib.use('Agg')
 from vis_utils.artist_image import get_artist_image
