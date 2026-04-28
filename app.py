@@ -16,6 +16,8 @@ import mongodb_queries.listener_col_queries as listener_query
 import mongodb_queries.artist_col_queries as artist_query
 import mongodb_queries.genre_col_queries as genre_query
 
+# use manual garbage collector calls to prevent memory leaks
+import gc
 # Patterns for address based navigation, render template flask page organization
 # taken from this resource:
 
@@ -26,7 +28,6 @@ app = Flask(__name__)
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Home tab ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 @app.route('/')
 def home():
-
     # ARTIST COL QUERIES
     # Data summary section
     total_num_artists = artist_query.get_total_num_artists()
@@ -46,7 +47,6 @@ def home():
     # 
     # Data summary section
     percent_metal = round((artist_query.get_num_artists_in_genre("metal") / total_num_genres) * 100, 2)
-    
     return render_template('index.html', 
                            query_display_list = query_display_list,
                            top_artists=top_artists, 
@@ -88,6 +88,7 @@ def artist():
 
     # GENRE COL QUERIES
     tag_colors = genre_query.get_color_for_tags()
+    gc.collect()
     return render_template('artist.html', 
                            query_display_list = query_display_list,
                            artist_map=artist_map, 
@@ -119,7 +120,7 @@ def artist_detail(name):
     # VISUALIZATION ELEMENTS
     artist_pie_chart = pie_chart.artist_genre_tag_pie_chart(name)
     artist_image = get_artist_image(name) if artist_doc else None
-    
+    gc.collect()
     return render_template(
         'artist.html',
         query_display_list = query_display_list,
@@ -146,7 +147,7 @@ def genre():
     # VISUALIZATION ELEMENTS
     genre_map, genre_map_list = map.plot_genre_origin_by_country()
     genre_bar, genre_bar_list = bar_plot.plot_genre_by_year()
-
+    gc.collect()
     return render_template('genre.html', 
                            query_display_list = query_display_list,
                            genre_map=genre_map,
@@ -175,7 +176,6 @@ def genre_detail(name):
     music_player_artist = random.choice(artist_list) if artist_list else None
     # similar genres to genre_name section
     similar_genres = artist_query.get_similar_genres_simple(name)
-
     # VISUALIZATION ELEMENTS
     # only preform if there is actually a doc for this genre
     if(genre_doc):
@@ -184,10 +184,11 @@ def genre_detail(name):
         genre_country_pie_chart = pie_chart.genre_country_pie_chart(name)
         artist_bar, artist_bar_list = bar_plot.plot_artists_origin_by_year(tag=name)
     else:
-        artist_map, artist_map_list = None, None
+        
         genre_artist_pie_chart = None
         genre_country_pie_chart = None, None
         artist_bar, artist_bar_list = None, None
+    gc.collect()
     
     return render_template(
         'genre.html', 
@@ -220,7 +221,7 @@ def genre_dendrogram(dendrogram_size):
         genre_dendrogram = dendrogram.plot_genre_dendrogram(dendrogram_size)
     else:
         genre_dendrogram = None
-    
+    gc.collect()
     return render_template(
         'genre.html', 
         query_display_list = query_display_list,
@@ -263,7 +264,7 @@ def listener_detail(_id):
 
     # VISUALIZATION ELEMENTS
     listener_artist_pie_chart = pie_chart.listener_artist_pie_chart(_id)
-    
+    gc.collect()
     return render_template(
         'listener.html', 
         query_display_list = query_display_list,

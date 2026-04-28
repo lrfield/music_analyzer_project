@@ -10,10 +10,15 @@ import urllib.request
 SHAPEFILE_URL   = "https://github.com/nvkelso/natural-earth-vector/raw/master/geojson/ne_110m_admin_0_countries.geojson"
 SHAPEFILE_CACHE = os.path.join(os.path.dirname(__file__), "ne_110m_admin_0_countries.geojson")
 
+_world_cache = None
+
 def _get_world():
-    if not os.path.exists(SHAPEFILE_CACHE):
-        urllib.request.urlretrieve(SHAPEFILE_URL, SHAPEFILE_CACHE)
-    return gpd.read_file(SHAPEFILE_CACHE)
+    global _world_cache
+    if _world_cache is None:
+        if not os.path.exists(SHAPEFILE_CACHE):
+            urllib.request.urlretrieve(SHAPEFILE_URL, SHAPEFILE_CACHE)
+        _world_cache = gpd.read_file(SHAPEFILE_CACHE)
+    return _world_cache
 
 def country_text_sizer(country_code):
 
@@ -57,7 +62,7 @@ def plot_world_map(input_list, country_col='country', value_col='value', color_c
     norm = mcolors.Normalize(vmin=min_val, vmax=max_val)
 
     # plotting the background map
-    fig, ax = plt.subplots(1, 1, figsize= (48,24))
+    fig, ax = plt.subplots(1, 1, figsize= (24,12))
 
     world.plot(ax=ax, color='white', edgecolor='black', linewidth=0.5)
     data.plot(ax=ax, column=color_col, cmap=cmap, norm=norm, edgecolor='white', linewidth=0.5)

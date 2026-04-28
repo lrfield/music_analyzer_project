@@ -8,7 +8,7 @@ def plot_bar(data, x_axis_title, y_axis_title, bar_color,
              bar_color_map = None, col_to_det_color = None):
     # data should look like {'category': 'category', 'value': 'value'}
     df=pd.DataFrame(data)
-    print(df[col_to_det_color])
+
     # color bars with dict (tag colors)
     if bar_color_map is not None:
         df["color"] = df[col_to_det_color].map(bar_color_map)
