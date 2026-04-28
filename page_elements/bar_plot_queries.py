@@ -3,6 +3,7 @@ from vis_utils.image_conversion import convert_matplot_fig_to_image
 from vis_utils.cache import save_file_to_cache, read_file_from_cache, save_json_to_cache, read_json_from_cache
 from mongodb_queries.db_constants import db, artists_col, genres_col, listeners_col
 from mongodb_queries.genre_col_queries import get_color_for_tags
+import matplotlib as plt
 
 def plot_artists_origin_by_year(tag=None):
 
@@ -92,6 +93,7 @@ def plot_artists_origin_by_year(tag=None):
         col_to_det_color = "main_genre"
     )
     artist_bar_plot_file = convert_matplot_fig_to_image(fig)
+    plt.close(fig)
     # saving no tag case to cache
     if(tag == None):
         print("Saving result to cache in static")
@@ -199,7 +201,7 @@ def plot_genre_by_year():
     )
 
     genre_bar_plot_file = convert_matplot_fig_to_image(fig)
-
+    plt.close(fig)
     # saving bar plot to cache
     print("Saving result to cache in static")
     save_file_to_cache('bar_plot_cache', "genre_bar_plot", genre_bar_plot_file)

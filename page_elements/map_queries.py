@@ -3,6 +3,7 @@ from vis_utils.image_conversion import convert_matplot_fig_to_image
 from vis_utils.cache import save_file_to_cache, read_file_from_cache, save_json_to_cache, read_json_from_cache
 from mongodb_queries.db_constants import db, artists_col, genres_col, listeners_col
 import pycountry
+import matplotlib as plt
 
 # convert ISO code to country name 
 # https://pypi.org/project/pycountry/
@@ -78,7 +79,7 @@ def plot_artist_origin_by_country(tag = None):
 
     fig, ax = plot_world_map(data)
     artist_country_map_file = convert_matplot_fig_to_image(fig)
-
+    plt.close(fig)
     # converting country ISO code to string country name in list
     # # important! this step should not take place before calling plot_world_map
     # # The map plotting needs ISO country codes 
@@ -148,7 +149,7 @@ def plot_genre_origin_by_country():
 
     fig, ax = plot_world_map(data)
     genre_country_map_file = convert_matplot_fig_to_image(fig)
-
+    plt.close(fig)
     # converting country ISO code to string country name in list
     # # important! this step should not take place before calling plot_world_map
     # # The map plotting needs ISO country codes 

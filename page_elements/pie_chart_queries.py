@@ -1,6 +1,7 @@
 from vis_utils.pie_chart import plot_pie_chart
 from vis_utils.image_conversion import convert_matplot_fig_to_image
 from mongodb_queries.db_constants import db, artists_col, genres_col, listeners_col
+import matplotlib as plt
 
 # Pie chart of voted genre tag distribution for a given artist
 def artist_genre_tag_pie_chart(name):
@@ -14,7 +15,9 @@ def artist_genre_tag_pie_chart(name):
     tag_counts = [tag_count["count"] for tag_count in tag_counts_list]
     
     fig, ax = plot_pie_chart(tag_counts,tag_names)
-    return convert_matplot_fig_to_image(fig)
+    result = convert_matplot_fig_to_image(fig)
+    plt.close(fig)
+    return result
   else:
     print("No tags found")
 
@@ -30,7 +33,9 @@ def genre_country_pie_chart(name):
     country_listen_counts = [entry["unique_listeners"] for entry in country_counts_dict]
     
     fig, ax = plot_pie_chart(country_listen_counts, countries)
-    return convert_matplot_fig_to_image(fig)
+    result = convert_matplot_fig_to_image(fig)
+    plt.close(fig)
+    return result
   else:
     print("No Countries found")
 
@@ -45,7 +50,9 @@ def genre_artist_pie_chart(name):
     artists = [entry["name"] for entry in artist_counts_dict]
     artist_listen_counts = [entry["unique_listeners"] for entry in artist_counts_dict]
     fig, ax = plot_pie_chart(artist_listen_counts, artists)
-    return convert_matplot_fig_to_image(fig) 
+    result = convert_matplot_fig_to_image(fig)
+    plt.close(fig)
+    return result 
   else:
     print("No Artists found")
 
@@ -61,6 +68,8 @@ def listener_artist_pie_chart(name):
       artists = [entry["artist_name"] for entry in activity]
       artist_listen_counts = [entry["listen_count"] for entry in activity]
       fig, ax = plot_pie_chart(artist_listen_counts, artists)
-      return convert_matplot_fig_to_image(fig)
+      result = convert_matplot_fig_to_image(fig)
+      plt.close(fig)
+      return result
   else:
       print("No Artists found")
