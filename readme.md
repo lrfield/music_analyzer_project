@@ -1248,12 +1248,12 @@ This module contains all of the queries that access the artist collection in the
 This module contains all of the queries that access the genre collection in the databse.
 | Function | Description | Arguments | Document Fields Used | Returns | Query Pattern |
 |---|---|---|---|---|---|
-| `get_genre` | Retrieve a single genre document by `_id` | `_id` | N/A | Single genre document | [get single document element](#get_single_document_element) |
-| `get_color_for_tags` | Return a mapping of genre `_id` values to their assigned hex color strings; defaults unmapped entries to `#000000` | none | `assigned_color` | Dict of `{genre_id: hex_color_string}` | [get single document element](#get_single_document_element) |
+| `get_genre` | Return a single genre document by `_id` | `_id` | N/A | Single genre document | [get single document element](#get_single_document_element) |
+| `get_color_for_tags` | Return a mapping of genre _id to their hex color | none | `assigned_color` | Dict of `{genre_id: hex_color_string}` | [get single document element](#get_single_document_element) |
 | `get_total_num_genres` | Return total count of all documents in the genre collection | none | N/A | Integer count | [count documents](#count_documents) |
-| `get_genre_rank_by_unique_listeners` | Return the 1-indexed rank of a genre by total unique listeners; note that `total_unique_listeners` double-counts listeners who listen to multiple artists within the same genre | `_id` | `total_unique_listeners` | Integer rank | [get rank](#get_rank) |
-| `get_genres` | Return genre documents sorted by total unique listeners descending, bounded by limit; filters out documents where `total_unique_listeners` is absent or null | `limit` (default `100`) | `total_unique_listeners` | List of projected genre dicts (`genre_name`, `total_unique_listeners`) | [Sorted List Aggregation](#sorted_list_aggregation) |
-| `top_genres_in_country` | Return top genres for a given country by unwinding the pre-aggregated `top_countries` list embedded in each genre document and matching on country `_id`; note this excludes countries ranked below 10th in a genre's listener base | `country`, `limit` (default `10`) | `top_countries._id`, `top_countries.unique_listeners` | List of projected genre dicts (`genre`, `unique_listeners`) | [Sorted List Aggregation](#sorted_list_aggregation) |
+| `get_genre_rank_by_unique_listeners` | Return the rank of a genre by total unique listeners | `_id` | `total_unique_listeners` | Integer rank | [get rank](#get_rank) |
+| `get_genres` | Return genre documents sorted by total unique listeners, limited (unique listeners can be double counted due to aggregating artists w/ multiple genres) | List of projected genre dicts (`genre_name`, `total_unique_listeners`) | [Sorted List Aggregation](#sorted_list_aggregation) |
+| `top_genres_in_country` | Return the top countries by aggregating the top_countries field of all genre docs | `country`, `limit` (default `10`) | `top_countries._id`, `top_countries.unique_listeners` | List of projected genre dicts (`genre`, `unique_listeners`) | [Sorted List Aggregation](#sorted_list_aggregation) |
 
 ## Reflections:
 
