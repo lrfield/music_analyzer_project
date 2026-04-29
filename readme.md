@@ -448,7 +448,8 @@ Location: [page_elements/bar_plot_queries.py](#bar_plot_queries)
 ### Database Construction
 The code for the database construction is linked below, along with a description for each step. A more general overview is below.
 
-[Juypter Notebook for Database Construction](https://colab.research.google.com/drive/1JGf3bxf1H5BxDSd2jkWiI6QRQUkKvDmT)
+[Juypter Notebook for Database Construction](https://github.com/lrfield/Building-MetalDB-Dataset)
+
 
 #### Collection Structure:
 
